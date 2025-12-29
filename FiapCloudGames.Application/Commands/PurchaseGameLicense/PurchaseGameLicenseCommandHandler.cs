@@ -11,12 +11,14 @@ namespace FiapCloudGames.Application.Commands.PurchaseGameLicense
         private readonly IUserRepository _userRepository;
         private readonly IGameRepository _gameRepository;
         private readonly IGameLicenseRepository _gameLicenseRepository;
+        private readonly GameOwnershipPolicy _gameOwnershipPolicy;
 
-        public PurchaseGameLicenseCommandHandler(IUserRepository userRepository, IGameRepository gameRepository, IGameLicenseRepository gameLicenseRepository)
+        public PurchaseGameLicenseCommandHandler(IUserRepository userRepository, IGameRepository gameRepository, IGameLicenseRepository gameLicenseRepository, GameOwnershipPolicy gameOwnershipPolicy)
         {
             _userRepository = userRepository;
             _gameRepository = gameRepository;
             _gameLicenseRepository = gameLicenseRepository;
+            _gameOwnershipPolicy = gameOwnershipPolicy;
         }
 
         public async Task<ResultViewModel<Guid>> Handle(PurchaseGameLicenseCommand request, CancellationToken cancellationToken)
@@ -31,11 +33,8 @@ namespace FiapCloudGames.Application.Commands.PurchaseGameLicense
             {
                 return ResultViewModel<Guid>.Error("Game not found.");
             }
-            
-            if(await _gameLicenseRepository.ExistsAsync(request.GameId, request.UserId, cancellationToken))
-            {
-                throw new DomainException("Game is purchased.");
-            }
+
+            await _gameOwnershipPolicy.EnsureUserOwnsGameAsync(request.UserId, request.GameId, cancellationToken);
 
             var gameLicense = new GameLicense(request.GameId, request.UserId, request.ExpirationDate);
 
