@@ -18,34 +18,39 @@ public class PasswordPolicyTests
     [Fact]
     public void Validate_ShouldThrow_WhenTooShort()
     {
-        var ex = Assert.Throws<DomainException>(() => PasswordPolicy.Validate("Ab1!"));
+        // Dummy short password (intentionally invalid)
+        var ex = Assert.Throws<DomainException>(() => PasswordPolicy.Validate("Tst1!"));
         Assert.Contains("at least 8", ex.Message);
     }
 
     [Fact]
     public void Validate_ShouldThrow_WhenNoLetter()
     {
-        var ex = Assert.Throws<DomainException>(() => PasswordPolicy.Validate("1234567!"));
+        // No letters: only digits/spaces/special chars
+        var ex = Assert.Throws<DomainException>(() => PasswordPolicy.Validate("0000 000!"));
         Assert.Contains("letter", ex.Message);
     }
 
     [Fact]
     public void Validate_ShouldThrow_WhenNoDigit()
     {
-        var ex = Assert.Throws<DomainException>(() => PasswordPolicy.Validate("Abcdefg!"));
+        // No digits: letters + underscore + special
+        var ex = Assert.Throws<DomainException>(() => PasswordPolicy.Validate("NO_DIGITS!"));
         Assert.Contains("digit", ex.Message);
     }
 
     [Fact]
     public void Validate_ShouldThrow_WhenNoSpecialCharacter()
     {
-        var ex = Assert.Throws<DomainException>(() => PasswordPolicy.Validate("Abcdefg1"));
+        // No special char: letters + digits only
+        var ex = Assert.Throws<DomainException>(() => PasswordPolicy.Validate("TESTPASS1"));
         Assert.Contains("special", ex.Message);
     }
 
     [Fact]
     public void Validate_ShouldNotThrow_WhenValid()
     {
-        PasswordPolicy.Validate("Abcdef1!");
+        // Explicit dummy value to avoid secret scanners false positives
+        PasswordPolicy.Validate("DUMMY_TEST_9$");
     }
 }
