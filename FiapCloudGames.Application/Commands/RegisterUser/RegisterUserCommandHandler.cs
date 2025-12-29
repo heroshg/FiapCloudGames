@@ -26,7 +26,7 @@ namespace FiapCloudGames.Application.Commands.RegisterUser
 
             await _uniquenessPolicy.EnsureEmailIsUniqueAsync(email.Address);
 
-            var passwordHash =  _passwordHasher.HashPassword(plainPassword.Value);
+            var passwordHash = _passwordHasher.HashPassword(plainPassword.Value);
 
             var user = new User(
                 email,

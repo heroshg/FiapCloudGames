@@ -7,7 +7,6 @@ namespace FiapCloudGames.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -18,7 +17,6 @@ namespace FiapCloudGames.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Register(RegisterUserCommand model, CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(model, cancellationToken);
