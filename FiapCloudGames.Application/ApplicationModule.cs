@@ -8,7 +8,7 @@ namespace FiapCloudGames.Application
     {
         public static IServiceCollection AddApplicationModule(this IServiceCollection services)
         {
-            services.AddScoped<UniquenessChecker>();
+            services.AddScoped<EmailUniquenessPolicy>();
             services.AddScoped<GameOwnershipPolicy>();
             return services;
         }

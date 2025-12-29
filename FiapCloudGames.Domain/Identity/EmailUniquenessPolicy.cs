@@ -2,11 +2,11 @@
 
 namespace FiapCloudGames.Domain.Identity
 {
-    public class UniquenessChecker
+    public class EmailUniquenessPolicy
     {
         private readonly IUserRepository _userRepository;
 
-        public UniquenessChecker(IUserRepository userRepository)
+        public EmailUniquenessPolicy(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
