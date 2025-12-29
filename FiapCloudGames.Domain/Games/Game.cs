@@ -6,12 +6,17 @@ namespace FiapCloudGames.Domain.Games
     {
         public Game(string name, string description, decimal price) : base()
         {
-            Name = name ?? throw new DomainException("Game name cannot be null");
-            Description = description ?? throw new DomainException("Game description cannot be null");
-            if(price < 0)
-            {
-                throw new DomainException("Game price cannot be negative");
-            }
+            if (string.IsNullOrWhiteSpace(name))
+                throw new DomainException("Game name cannot be null or empty.");
+
+            if (string.IsNullOrWhiteSpace(description))
+                throw new DomainException("Game description cannot be null or empty.");
+
+            if (price < 0)
+                throw new DomainException("Game price cannot be negative.");
+
+            Name = name;
+            Description = description;
             Price = price;
         }
 
