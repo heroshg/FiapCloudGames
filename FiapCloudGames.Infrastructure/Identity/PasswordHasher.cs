@@ -13,7 +13,7 @@ namespace FiapCloudGames.Infrastructure.Identity
         private const int MemorySize = 1024 * 64; 
         private const int DegreeOfParallelism = 2;
 
-        public string HashPasswordAsync(string password)
+        public string HashPassword(string password)
         {
             byte[] salt = RandomNumberGenerator.GetBytes(SaltSize);
 
@@ -39,7 +39,7 @@ namespace FiapCloudGames.Infrastructure.Identity
             return result;
         }
 
-        public bool VerifyPasswordAsync(string password, string hashedPassword)
+        public bool VerifyPassword(string password, string hashedPassword)
         {
             var parts = hashedPassword.Split('.');
             if (parts.Length != 6 || parts[0] != "argon2id")

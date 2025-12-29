@@ -6,13 +6,13 @@ namespace FiapCloudGames.Application.Commands.RegisterUser
 {
     public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, ResultViewModel<Guid>>
     { 
-        private readonly UniquenessChecker _uniquenessChecker;
+        private readonly EmailUniquenessPolicy _uniquenessPolicy;
         private readonly IUserRepository _repository;
         private readonly IPasswordHasher _passwordHasher;
 
-        public RegisterUserCommandHandler(UniquenessChecker uniquenessChecker, IUserRepository repository, IPasswordHasher passwordHasher)
+        public RegisterUserCommandHandler(EmailUniquenessPolicy uniquenessPolicy, IUserRepository repository, IPasswordHasher passwordHasher)
         {
-            _uniquenessChecker = uniquenessChecker;
+            _uniquenessPolicy = uniquenessPolicy;
             _repository = repository;
             _passwordHasher = passwordHasher;
         }
@@ -24,9 +24,9 @@ namespace FiapCloudGames.Application.Commands.RegisterUser
             var email = new Email(request.Email);
             var plainPassword = Password.FromPlainText(request.Password);
 
-            await _uniquenessChecker.EnsureEmailIsUniqueAsync(email.Address);
+            await _uniquenessPolicy.EnsureEmailIsUniqueAsync(email.Address);
 
-            var passwordHash = _passwordHasher.HashPasswordAsync(plainPassword.Value);
+            var passwordHash =  _passwordHasher.HashPassword(plainPassword.Value);
 
             var user = new User(
                 email,
