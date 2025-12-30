@@ -20,6 +20,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FiapCloudGames.Application\FiapCloudGames.Application.csproj" />
+    <ProjectReference Include="..\FiapCloudGames.Domain\FiapCloudGames.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
 
