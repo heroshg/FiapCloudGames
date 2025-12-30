@@ -4,12 +4,19 @@ namespace FiapCloudGames.Domain.Identity
 {
     public class User : AggregateRoot
     {
-        public User(Email email, Password password)
+        private const int maxNameLength = 150;
+
+        public User(string name, Email email, Password password)
         {
-            Email = email;
-            Password = password;
+            if (string.IsNullOrWhiteSpace(name))
+                throw new DomainException("User name cannot be null or empty.");
+
+            if (name.Length > maxNameLength)
+                throw new DomainException("Name is too long.");
+
+            Email = email ?? throw new DomainException("Email is required.");
+            Password = password ?? throw new DomainException("Password is required.");
             Role = Role.User;
-            Username = email.Address;
         }
 
         // EF Core
@@ -21,7 +28,7 @@ namespace FiapCloudGames.Domain.Identity
         public Email Email { get; private set; }
         public Password Password { get; private set; }
         public Role Role { get; private set; }
-        public string Username { get; private set; }
+        public string Name { get; private set; }
 
         public void TurnAdmin()
         {
