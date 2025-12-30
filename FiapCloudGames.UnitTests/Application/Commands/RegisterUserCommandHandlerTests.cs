@@ -1,6 +1,7 @@
 ﻿using FiapCloudGames.Application.Commands.RegisterUser;
 using FiapCloudGames.Domain.Common;
 using FiapCloudGames.Domain.Identity;
+using FiapCloudGames.UnitTests.Common;
 using Moq;
 using Xunit;
 
@@ -26,9 +27,11 @@ public class RegisterUserCommandHandlerTests
         var uniqueness = new EmailUniquenessPolicy(users.Object);
         var sut = new RegisterUserCommandHandler(uniqueness, users.Object, hasher.Object);
 
+        var valid = PasswordGenerator.Generate(totalLength: 12, lettersCount: 7, digitsCount: 3, specialCount: 2);
+
         var cmd = new RegisterUserCommand(
             Email: "user@example.com",
-            Password: "Abcdef1!"
+            Password: valid
         );
 
         var result = await sut.Handle(cmd, CancellationToken.None);
@@ -37,7 +40,7 @@ public class RegisterUserCommandHandlerTests
         Assert.Equal(expectedId, result.Data);
 
         users.Verify(r => r.IsEmailRegisteredAsync("user@example.com"), Times.Once);
-        hasher.Verify(h => h.HashPassword("Abcdef1!"), Times.Once);
+        hasher.Verify(h => h.HashPassword(valid), Times.Once);
         users.Verify(r => r.AddUserAsync(
             It.Is<User>(u =>
                 u.Email.Address == "user@example.com" &&
@@ -56,9 +59,11 @@ public class RegisterUserCommandHandlerTests
         var uniqueness = new EmailUniquenessPolicy(users.Object);
         var sut = new RegisterUserCommandHandler(uniqueness, users.Object, hasher.Object);
 
+        var valid = PasswordGenerator.Generate(totalLength: 10, lettersCount: 7, digitsCount: 2, specialCount: 1);
+
         var cmd = new RegisterUserCommand(
             Email: "email-invalido",
-            Password: "Abcdef1!"
+            Password: valid
         );
 
         await Assert.ThrowsAsync<DomainException>(() => sut.Handle(cmd, CancellationToken.None));
@@ -76,9 +81,11 @@ public class RegisterUserCommandHandlerTests
         var uniqueness = new EmailUniquenessPolicy(users.Object);
         var sut = new RegisterUserCommandHandler(uniqueness, users.Object, hasher.Object);
 
+        var invalid = PasswordGenerator.Generate(totalLength: 3, lettersCount: 0, digitsCount: 3, specialCount: 0);
+
         var cmd = new RegisterUserCommand(
             Email: "user@example.com",
-            Password: "123" // inválida
+            Password: invalid
         );
 
         await Assert.ThrowsAsync<DomainException>(() => sut.Handle(cmd, CancellationToken.None));
@@ -99,9 +106,11 @@ public class RegisterUserCommandHandlerTests
         var uniqueness = new EmailUniquenessPolicy(users.Object);
         var sut = new RegisterUserCommandHandler(uniqueness, users.Object, hasher.Object);
 
+        var valid = PasswordGenerator.Generate(totalLength: 8, lettersCount: 4, digitsCount: 2, specialCount: 2);
+
         var cmd = new RegisterUserCommand(
             Email: "user@example.com",
-            Password: "Abcdef1!"
+            Password: valid
         );
 
         await Assert.ThrowsAsync<DomainException>(() => sut.Handle(cmd, CancellationToken.None));
