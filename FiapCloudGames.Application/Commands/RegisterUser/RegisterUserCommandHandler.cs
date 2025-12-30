@@ -29,6 +29,7 @@ namespace FiapCloudGames.Application.Commands.RegisterUser
             var passwordHash = _passwordHasher.HashPassword(plainPassword.Value);
 
             var user = new User(
+                request.Name,
                 email,
                 Password.FromHash(passwordHash)
             );

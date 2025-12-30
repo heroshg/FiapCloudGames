@@ -28,8 +28,9 @@ namespace FiapCloudGames.Infrastructure.Persistence.Configurations
                     .HasColumnName("Role")
                     .IsRequired();
             });
-            builder.Property(u => u.Username)
-                   .IsRequired();
+            builder.Property(u => u.Name)
+                   .IsRequired()
+                   .HasMaxLength(150);
 
         }
     }

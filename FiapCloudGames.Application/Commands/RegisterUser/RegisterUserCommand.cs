@@ -3,7 +3,7 @@ using NetDevPack.SimpleMediator;
 
 namespace FiapCloudGames.Application.Commands.RegisterUser
 {
-    public record RegisterUserCommand(string Email, string Password) : IRequest<ResultViewModel<Guid>>
+    public record RegisterUserCommand(string Name, string Email, string Password) : IRequest<ResultViewModel<Guid>>
     {
     }
 }
