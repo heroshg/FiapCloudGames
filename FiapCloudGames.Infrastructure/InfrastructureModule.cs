@@ -23,7 +23,7 @@ namespace FiapCloudGames.Infrastructure
         {
             services.AddDbContext<FiapCloudGamesDbContext>(opts =>
             {
-                opts.UseSqlServer(configuration.GetConnectionString("FiapCloudGames"));
+                opts.UseNpgsql(configuration.GetConnectionString("FiapCloudGames"));
             });
         }
 

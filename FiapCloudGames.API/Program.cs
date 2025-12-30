@@ -1,5 +1,4 @@
 using FiapCloudGames.Application;
-using FiapCloudGames.Application.Commands.RegisterUser;
 using FiapCloudGames.Infrastructure;
 using NetDevPack.SimpleMediator;
 
