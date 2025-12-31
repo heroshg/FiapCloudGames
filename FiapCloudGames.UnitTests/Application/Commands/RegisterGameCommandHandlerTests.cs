@@ -1,16 +1,21 @@
 ﻿using FiapCloudGames.Application.Commands.RegisterGame;
 using FiapCloudGames.Domain.Common;
 using FiapCloudGames.Domain.Games;
+using FiapCloudGames.UnitTests.Common;
 using Moq;
+using Xunit;
 
 namespace FiapCloudGames.UnitTests.Application.Commands;
 
 public class RegisterGameCommandHandlerTests
 {
+
     [Fact]
-    public async Task Handle_ShouldCreateGameAndReturnSuccess()
+    public async Task GivenValidCommand_WhenHandle_ThenCreatesGameAndReturnsSuccess()
     {
+        // Arrange
         var expectedId = Guid.NewGuid();
+
         var repo = new Mock<IGameRepository>();
         repo.Setup(r => r.AddGameAsync(It.IsAny<Game>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(expectedId);
@@ -23,118 +28,146 @@ public class RegisterGameCommandHandlerTests
             Price: 59.9m
         );
 
+        // Act
         var result = await sut.Handle(cmd, CancellationToken.None);
 
+        // Assert
         Assert.True(result.IsSuccess);
         Assert.Equal(expectedId, result.Data);
 
         repo.Verify(r => r.AddGameAsync(
-            It.Is<Game>(g => g.Name == "Hades" && g.Description == "Roguelike" && g.Price == 59.9m),
+            It.Is<Game>(g =>
+                g.Name == "Hades" &&
+                g.Description == "Roguelike" &&
+                g.Price == 59.9m),
             It.IsAny<CancellationToken>()),
             Times.Once);
     }
+
     [Fact]
-    public async Task Handle_ShouldThrow_WhenRepositoryThrowsException()
+    public async Task GivenRepositoryThrowsException_WhenHandle_ThenThrowsSameException()
     {
+        // Arrange
         var repo = new Mock<IGameRepository>();
         repo.Setup(r => r.AddGameAsync(It.IsAny<Game>(), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new Exception("Database error"));
 
         var sut = new RegisterGameCommandHandler(repo.Object);
 
-        var cmd = new RegisterGameCommand("Hades", "Roguelike", 59.9m);
+        var cmd = new RegisterGameCommand(
+            Name: "Hades",
+            Description: "Roguelike",
+            Price: 59.9m
+        );
 
-        var ex = await Assert.ThrowsAsync<Exception>(() => sut.Handle(cmd, CancellationToken.None));
+        // Act
+        var act = async () => await sut.Handle(cmd, CancellationToken.None);
+
+        // Assert
+        var ex = await Assert.ThrowsAsync<Exception>(act);
         Assert.Equal("Database error", ex.Message);
     }
 
     [Fact]
-    public async Task Handle_ShouldThrowDomainException_WhenPriceIsNegative()
+    public async Task GivenNegativePrice_WhenHandle_ThenThrowsDomainExceptionAndDoesNotCallRepository()
     {
+        // Arrange
         var repo = new Mock<IGameRepository>();
         var sut = new RegisterGameCommandHandler(repo.Object);
 
-        var cmd = new RegisterGameCommand("Hades", "Roguelike", -10m);
+        var cmd = new RegisterGameCommand(
+            Name: "Hades",
+            Description: "Roguelike",
+            Price: -10m
+        );
 
-        var ex = await Assert.ThrowsAsync<DomainException>(() => sut.Handle(cmd, CancellationToken.None));
+        // Act
+        var act = async () => await sut.Handle(cmd, CancellationToken.None);
+
+        // Assert
+        var ex = await Assert.ThrowsAsync<DomainException>(act);
         Assert.Equal("Game price cannot be negative.", ex.Message);
 
         repo.Verify(r => r.AddGameAsync(It.IsAny<Game>(), It.IsAny<CancellationToken>()), Times.Never);
     }
-    [Fact]
-    public async Task Handle_ShouldReturnFailure_WhenNameIsEmpty()
+
+    [Theory]
+    [MemberData(
+        nameof(PasswordFakers.NullOrWhiteSpaceStrings),
+        MemberType = typeof(PasswordFakers)
+    )]
+    public async Task GivenNullOrWhiteSpaceName_WhenHandle_ThenThrowsDomainExceptionAndDoesNotCallRepository(string name)
     {
+        // Arrange
         var repo = new Mock<IGameRepository>();
         var sut = new RegisterGameCommandHandler(repo.Object);
+
         var cmd = new RegisterGameCommand(
-            Name: "",
+            Name: name,
             Description: "Roguelike",
             Price: 59.9m
         );
-        var ex = await Assert.ThrowsAsync<DomainException>(() => sut.Handle(cmd, CancellationToken.None));
+
+        // Act
+        var act = async () => await sut.Handle(cmd, CancellationToken.None);
+
+        // Assert
+        var ex = await Assert.ThrowsAsync<DomainException>(act);
         Assert.Equal("Game name cannot be null or empty.", ex.Message);
 
         repo.Verify(r => r.AddGameAsync(It.IsAny<Game>(), It.IsAny<CancellationToken>()), Times.Never);
     }
-    [Fact]
-    public async Task Handle_ShouldReturnFailure_WhenNameIsNull()
-    {
-        var repo = new Mock<IGameRepository>();
-        var sut = new RegisterGameCommandHandler(repo.Object);
-        var cmd = new RegisterGameCommand(
-            Name: null!,
-            Description: "Roguelike",
-            Price: 59.9m
-        );
-        var ex = await Assert.ThrowsAsync<DomainException>(() => sut.Handle(cmd, CancellationToken.None));
-        Assert.Equal("Game name cannot be null or empty.", ex.Message);
 
-        repo.Verify(r => r.AddGameAsync(It.IsAny<Game>(), It.IsAny<CancellationToken>()), Times.Never);
-    }
-    [Fact]
-    public async Task Handle_ShouldReturnFailure_WhenDescriptionIsEmpty()
+    [Theory]
+    [MemberData(
+        nameof(PasswordFakers.NullOrWhiteSpaceStrings),
+        MemberType = typeof(PasswordFakers)
+    )]
+    public async Task GivenNullOrWhiteSpaceDescription_WhenHandle_ThenThrowsDomainExceptionAndDoesNotCallRepository(string description)
     {
+        // Arrange
         var repo = new Mock<IGameRepository>();
         var sut = new RegisterGameCommandHandler(repo.Object);
+
         var cmd = new RegisterGameCommand(
             Name: "Hades",
-            Description: "",
+            Description: description,
             Price: 59.9m
         );
-        var ex = await Assert.ThrowsAsync<DomainException>(() => sut.Handle(cmd, CancellationToken.None));
+
+        // Act
+        var act = async () => await sut.Handle(cmd, CancellationToken.None);
+
+        // Assert
+        var ex = await Assert.ThrowsAsync<DomainException>(act);
         Assert.Equal("Game description cannot be null or empty.", ex.Message);
 
         repo.Verify(r => r.AddGameAsync(It.IsAny<Game>(), It.IsAny<CancellationToken>()), Times.Never);
     }
-    [Fact]
-    public async Task Handle_ShouldReturnFailure_WhenDescriptionIsNull() {         var repo = new Mock<IGameRepository>();
-        var sut = new RegisterGameCommandHandler(repo.Object);
-        var cmd = new RegisterGameCommand(
-            Name: "Hades",
-            Description: null!,
-            Price: 59.9m
-        );
-        var ex = await Assert.ThrowsAsync<DomainException>(() => sut.Handle(cmd, CancellationToken.None));
-        Assert.Equal("Game description cannot be null or empty.", ex.Message);
-        repo.Verify(r => r.AddGameAsync(It.IsAny<Game>(), It.IsAny<CancellationToken>()), Times.Never);
-    }
 
     [Fact]
-    public async Task Handle_ShouldPropagateCancellation_WhenRepositoryThrowsOperationCanceled()
+    public async Task GivenCanceledToken_WhenHandle_ThenPropagatesOperationCanceledException()
     {
+        // Arrange
         var repo = new Mock<IGameRepository>();
-
         repo.Setup(r => r.AddGameAsync(It.IsAny<Game>(), It.IsAny<CancellationToken>()))
-            .Returns<Game, CancellationToken>((g, ct) =>
-                Task.FromCanceled<Guid>(ct));
+            .Returns<Game, CancellationToken>((_, ct) => Task.FromCanceled<Guid>(ct));
 
         var sut = new RegisterGameCommandHandler(repo.Object);
 
         using var cts = new CancellationTokenSource();
         cts.Cancel();
 
-        await Assert.ThrowsAnyAsync<OperationCanceledException>(() =>
-            sut.Handle(new RegisterGameCommand("Hades", "Roguelike", 59.9m), cts.Token));
-    }
+        var cmd = new RegisterGameCommand(
+            Name: "Hades",
+            Description: "Roguelike",
+            Price: 59.9m
+        );
 
+        // Act
+        var act = async () => await sut.Handle(cmd, cts.Token);
+
+        // Assert
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(act);
+    }
 }

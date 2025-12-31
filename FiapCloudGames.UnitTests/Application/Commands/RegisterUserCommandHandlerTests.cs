@@ -10,13 +10,15 @@ namespace FiapCloudGames.UnitTests.Application.Commands;
 public class RegisterUserCommandHandlerTests
 {
     [Fact]
-    public async Task Handle_ShouldReturnSuccess_WhenUserIsRegistered()
+    public async Task GivenValidCommand_WhenHandle_ThenReturnsSuccessAndCreatesUser()
     {
+        // Arrange
         var expectedId = Guid.NewGuid();
 
         var users = new Mock<IUserRepository>();
         users.Setup(r => r.IsEmailRegisteredAsync("user@example.com"))
             .ReturnsAsync(false);
+
         users.Setup(r => r.AddUserAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(expectedId);
 
@@ -27,20 +29,23 @@ public class RegisterUserCommandHandlerTests
         var uniqueness = new EmailUniquenessPolicy(users.Object);
         var sut = new RegisterUserCommandHandler(uniqueness, users.Object, hasher.Object);
 
-        var valid = PasswordGenerator.Generate(totalLength: 12, lettersCount: 7, digitsCount: 3, specialCount: 2);
+        var validPassword = PasswordFakers.GenerateValidPassword();
 
         var cmd = new RegisterUserCommand(
             Email: "user@example.com",
-            Password: valid
+            Password: validPassword
         );
 
+        // Act
         var result = await sut.Handle(cmd, CancellationToken.None);
 
+        // Assert
         Assert.True(result.IsSuccess);
         Assert.Equal(expectedId, result.Data);
 
         users.Verify(r => r.IsEmailRegisteredAsync("user@example.com"), Times.Once);
-        hasher.Verify(h => h.HashPassword(valid), Times.Once);
+        hasher.Verify(h => h.HashPassword(validPassword), Times.Once);
+
         users.Verify(r => r.AddUserAsync(
             It.Is<User>(u =>
                 u.Email.Address == "user@example.com" &&
@@ -52,21 +57,27 @@ public class RegisterUserCommandHandlerTests
     }
 
     [Fact]
-    public async Task Handle_ShouldThrow_WhenEmailIsInvalid()
+    public async Task GivenInvalidEmail_WhenHandle_ThenThrowsDomainExceptionAndDoesNotCallDependencies()
     {
+        // Arrange
         var users = new Mock<IUserRepository>();
         var hasher = new Mock<IPasswordHasher>();
+
         var uniqueness = new EmailUniquenessPolicy(users.Object);
         var sut = new RegisterUserCommandHandler(uniqueness, users.Object, hasher.Object);
 
-        var valid = PasswordGenerator.Generate(totalLength: 10, lettersCount: 7, digitsCount: 2, specialCount: 1);
+        var validPassword = PasswordFakers.GenerateValidPassword();
 
         var cmd = new RegisterUserCommand(
             Email: "email-invalido",
-            Password: valid
+            Password: validPassword
         );
 
-        await Assert.ThrowsAsync<DomainException>(() => sut.Handle(cmd, CancellationToken.None));
+        // Act
+        var act = async () => await sut.Handle(cmd, CancellationToken.None);
+
+        // Assert
+        await Assert.ThrowsAsync<DomainException>(act);
 
         users.Verify(r => r.IsEmailRegisteredAsync(It.IsAny<string>()), Times.Never);
         hasher.Verify(h => h.HashPassword(It.IsAny<string>()), Times.Never);
@@ -74,21 +85,29 @@ public class RegisterUserCommandHandlerTests
     }
 
     [Fact]
-    public async Task Handle_ShouldThrow_WhenPasswordIsInvalid()
+    public async Task GivenInvalidPassword_WhenHandle_ThenThrowsDomainExceptionAndDoesNotCallDependencies()
     {
+        // Arrange
         var users = new Mock<IUserRepository>();
         var hasher = new Mock<IPasswordHasher>();
+
         var uniqueness = new EmailUniquenessPolicy(users.Object);
         var sut = new RegisterUserCommandHandler(uniqueness, users.Object, hasher.Object);
 
-        var invalid = PasswordGenerator.Generate(totalLength: 3, lettersCount: 0, digitsCount: 3, specialCount: 0);
+        // Exemplo: inválida por ser muito curta / não atender policy
+        // Ajuste para o método que você criou no PasswordFakers.
+        var invalidPassword = PasswordFakers.GenerateTooShortPassword();
 
         var cmd = new RegisterUserCommand(
             Email: "user@example.com",
-            Password: invalid
+            Password: invalidPassword
         );
 
-        await Assert.ThrowsAsync<DomainException>(() => sut.Handle(cmd, CancellationToken.None));
+        // Act
+        var act = async () => await sut.Handle(cmd, CancellationToken.None);
+
+        // Assert
+        await Assert.ThrowsAsync<DomainException>(act);
 
         users.Verify(r => r.IsEmailRegisteredAsync(It.IsAny<string>()), Times.Never);
         hasher.Verify(h => h.HashPassword(It.IsAny<string>()), Times.Never);
@@ -96,24 +115,30 @@ public class RegisterUserCommandHandlerTests
     }
 
     [Fact]
-    public async Task Handle_ShouldThrow_WhenEmailIsAlreadyRegistered()
+    public async Task GivenEmailAlreadyRegistered_WhenHandle_ThenThrowsDomainExceptionAndDoesNotHashOrCreateUser()
     {
+        // Arrange
         var users = new Mock<IUserRepository>();
         users.Setup(r => r.IsEmailRegisteredAsync("user@example.com"))
             .ReturnsAsync(true);
 
         var hasher = new Mock<IPasswordHasher>();
+
         var uniqueness = new EmailUniquenessPolicy(users.Object);
         var sut = new RegisterUserCommandHandler(uniqueness, users.Object, hasher.Object);
 
-        var valid = PasswordGenerator.Generate(totalLength: 8, lettersCount: 4, digitsCount: 2, specialCount: 2);
+        var validPassword = PasswordFakers.GenerateValidPassword();
 
         var cmd = new RegisterUserCommand(
             Email: "user@example.com",
-            Password: valid
+            Password: validPassword
         );
 
-        await Assert.ThrowsAsync<DomainException>(() => sut.Handle(cmd, CancellationToken.None));
+        // Act
+        var act = async () => await sut.Handle(cmd, CancellationToken.None);
+
+        // Assert
+        await Assert.ThrowsAsync<DomainException>(act);
 
         users.Verify(r => r.IsEmailRegisteredAsync("user@example.com"), Times.Once);
         hasher.Verify(h => h.HashPassword(It.IsAny<string>()), Times.Never);

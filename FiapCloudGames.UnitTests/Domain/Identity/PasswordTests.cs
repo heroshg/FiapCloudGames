@@ -1,35 +1,100 @@
 using FiapCloudGames.Domain.Common;
 using FiapCloudGames.Domain.Identity;
 using FiapCloudGames.UnitTests.Common;
-using Xunit;
 
 namespace FiapCloudGames.UnitTests.Domain.Identity;
 
 public class PasswordTests
 {
-    [Fact]
-    public void FromPlainText_ShouldValidateAndCreatePassword()
+
+    [Theory]
+    [MemberData(
+        nameof(PasswordFakers.NullOrWhiteSpaceStrings),
+        MemberType = typeof(PasswordFakers)
+    )]
+    public void GivenNullOrWhiteSpacePassword_WhenValidate_ThenThrowsDomainException(string? password)
     {
-        var valid = PasswordGenerator.Generate(totalLength: 12, lettersCount: 7, digitsCount: 3, specialCount: 2);
+        // Arrange
+        // (nothing else)
+
+        // Act
+        var act = () => PasswordPolicy.Validate(password!);
+
+        // Assert
+        Assert.Throws<DomainException>(act);
+    }
+
+    [Theory]
+    [MemberData(
+        nameof(PasswordFakers.InvalidPasswordsForPolicy),
+        MemberType = typeof(PasswordFakers)
+    )]
+    public void GivenInvalidPassword_WhenValidate_ThenThrowsDomainException(string password, string expectedMessagePart)
+    {
+        // Arrange
+        // password already arranged by MemberData
+
+        // Act
+        var ex = Assert.Throws<DomainException>(() => PasswordPolicy.Validate(password));
+
+        // Assert
+        Assert.Contains(expectedMessagePart, ex.Message);
+    }
+
+    [Fact]
+    public void GivenValidPassword_WhenValidate_ThenDoesNotThrow()
+    {
+        // Arrange
+        var valid = PasswordFakers.GenerateValidPassword();
+
+        // Act
+        var act = () => PasswordPolicy.Validate(valid);
+
+        // Assert
+        var ex = Record.Exception(act);
+        Assert.Null(ex);
+    }
+
+    [Fact]
+    public void GivenValidPlainTextPassword_WhenFromPlainText_ThenCreatesPasswordWithSameValue()
+    {
+        // Arrange
+        var valid = PasswordFakers.GenerateValidPassword();
+
+        // Act
         var password = Password.FromPlainText(valid);
 
+        // Assert
         Assert.Equal(valid, password.Value);
     }
 
     [Theory]
-    [InlineData(null)]
-    [InlineData("")]
-    [InlineData("   ")]
-    public void FromHash_ShouldThrow_WhenEmpty(string? hash)
+    [MemberData(
+        nameof(PasswordFakers.NullOrWhiteSpaceStrings),
+        MemberType = typeof(PasswordFakers)
+    )]
+    public void GivenNullOrWhiteSpaceHash_WhenFromHash_ThenThrowsDomainException(string? hash)
     {
-        Assert.Throws<DomainException>(() => Password.FromHash(hash!));
+        // Arrange
+        // (nothing else)
+
+        // Act
+        var act = () => Password.FromHash(hash!);
+
+        // Assert
+        Assert.Throws<DomainException>(act);
     }
 
     [Fact]
-    public void FromHash_ShouldCreatePassword_WhenValid()
+    public void GivenValidHash_WhenFromHash_ThenCreatesPasswordWithSameValue()
     {
-        var password = Password.FromHash("some-hash");
+        // Arrange
+        var hash = "some-hash";
 
-        Assert.Equal("some-hash", password.Value);
+        // Act
+        var password = Password.FromHash(hash);
+
+        // Assert
+        Assert.Equal(hash, password.Value);
     }
 }
