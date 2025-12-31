@@ -11,7 +11,7 @@ public class RegisterGameCommandHandlerTests
 {
 
     [Fact]
-    public async Task GivenValidCommand_WhenHandle_ThenCreatesGameAndReturnsSuccess()
+    public async Task ValidCommand_Handle_CreatesGameAndReturnsSuccess()
     {
         // Arrange
         var expectedId = Guid.NewGuid();
@@ -45,7 +45,7 @@ public class RegisterGameCommandHandlerTests
     }
 
     [Fact]
-    public async Task GivenRepositoryThrowsException_WhenHandle_ThenThrowsSameException()
+    public async Task RepositoryThrowsException_Handle_ThrowsSameException()
     {
         // Arrange
         var repo = new Mock<IGameRepository>();
@@ -69,7 +69,7 @@ public class RegisterGameCommandHandlerTests
     }
 
     [Fact]
-    public async Task GivenNegativePrice_WhenHandle_ThenThrowsDomainExceptionAndDoesNotCallRepository()
+    public async Task NegativePrice_Handle_ThrowsDomainExceptionAndDoesNotCallRepository()
     {
         // Arrange
         var repo = new Mock<IGameRepository>();
@@ -96,7 +96,7 @@ public class RegisterGameCommandHandlerTests
         nameof(PasswordFakers.NullOrWhiteSpaceStrings),
         MemberType = typeof(PasswordFakers)
     )]
-    public async Task GivenNullOrWhiteSpaceName_WhenHandle_ThenThrowsDomainExceptionAndDoesNotCallRepository(string name)
+    public async Task NullOrWhiteSpaceName_Handle_ThrowsDomainExceptionAndDoesNotCallRepository(string name)
     {
         // Arrange
         var repo = new Mock<IGameRepository>();
@@ -123,7 +123,7 @@ public class RegisterGameCommandHandlerTests
         nameof(PasswordFakers.NullOrWhiteSpaceStrings),
         MemberType = typeof(PasswordFakers)
     )]
-    public async Task GivenNullOrWhiteSpaceDescription_WhenHandle_ThenThrowsDomainExceptionAndDoesNotCallRepository(string description)
+    public async Task NullOrWhiteSpaceDescription_Handle_ThrowsDomainExceptionAndDoesNotCallRepository(string description)
     {
         // Arrange
         var repo = new Mock<IGameRepository>();
@@ -146,7 +146,7 @@ public class RegisterGameCommandHandlerTests
     }
 
     [Fact]
-    public async Task GivenCanceledToken_WhenHandle_ThenPropagatesOperationCanceledException()
+    public async Task CanceledToken_Handle_PropagatesOperationCanceledException()
     {
         // Arrange
         var repo = new Mock<IGameRepository>();

@@ -14,6 +14,7 @@ namespace FiapCloudGames.Domain.Identity
             if (name.Length > maxNameLength)
                 throw new DomainException("Name is too long.");
 
+            Name = name;
             Email = email ?? throw new DomainException("Email is required.");
             Password = password ?? throw new DomainException("Password is required.");
             Role = Role.User;
