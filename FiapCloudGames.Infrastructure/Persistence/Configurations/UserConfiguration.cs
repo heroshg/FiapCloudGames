@@ -14,7 +14,11 @@ namespace FiapCloudGames.Infrastructure.Persistence.Configurations
                 email.Property(e => e.Address)
                      .HasColumnName("Email")
                      .IsRequired();
+
+                email.HasIndex(e => e.Address)
+                   .IsUnique();
             });
+
             builder.OwnsOne(u => u.Password, password =>
             {
                 password.Property(p => p.Value)

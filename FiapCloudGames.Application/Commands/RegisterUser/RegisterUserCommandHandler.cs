@@ -34,7 +34,7 @@ namespace FiapCloudGames.Application.Commands.RegisterUser
                 Password.FromHash(passwordHash)
             );
 
-            var id = await _repository.AddUserAsync(user, cancellationToken);
+            var id = await _repository.AddAsync(user, cancellationToken);
 
             return ResultViewModel<Guid>.Success(id);
         }

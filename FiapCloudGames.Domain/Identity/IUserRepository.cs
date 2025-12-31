@@ -3,7 +3,8 @@
     public interface IUserRepository
     {
         Task<bool> IsEmailRegisteredAsync(string email);
-        Task<Guid> AddUserAsync(User user, CancellationToken cancellationToken);
+        Task<Guid> AddAsync(User user, CancellationToken cancellationToken);
         Task<User?> GetByIdAsync(Guid userId, CancellationToken cancellationToken);
+        Task<bool> ExistsById(Guid id, CancellationToken cancellationToken);
     }
 }

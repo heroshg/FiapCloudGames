@@ -12,11 +12,16 @@ namespace FiapCloudGames.Infrastructure.Persistence.Repositories
             _context = context;
         }
 
-        public async Task<Guid> AddUserAsync(User user, CancellationToken cancellationToken)
+        public async Task<Guid> AddAsync(User user, CancellationToken cancellationToken)
         {
             await _context.AddAsync(user, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
             return user.Id;
+        }
+
+        public async Task<bool> ExistsById(Guid id, CancellationToken cancellationToken)
+        {
+            return await _context.Users.AnyAsync(u => u.Id == id, cancellationToken);
         }
 
         public async Task<User?> GetByIdAsync(Guid userId, CancellationToken cancellationToken)
