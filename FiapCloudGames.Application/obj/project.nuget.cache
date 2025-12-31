@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "k9/X5MMIslc=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\leand\\meus-projetos\\PosTech\\Grupo8\\FiapCloudGames\\FiapCloudGames.Application\\FiapCloudGames.Application.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\leand\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\6.0.0\\microsoft.extensions.dependencyinjection.6.0.0.nupkg.sha512",
+    "C:\\Users\\leand\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\6.0.0\\microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512",
+    "C:\\Users\\leand\\.nuget\\packages\\netdevpack.simplemediator\\1.2.0\\netdevpack.simplemediator.1.2.0.nupkg.sha512",
+    "C:\\Users\\leand\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

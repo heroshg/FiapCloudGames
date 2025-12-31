@@ -1,0 +1,12 @@
+C:\Users\leand\meus-projetos\PosTech\Grupo8\FiapCloudGames\FiapCloudGames.Domain\bin\Debug\net8.0\FiapCloudGames.Domain.deps.json
+C:\Users\leand\meus-projetos\PosTech\Grupo8\FiapCloudGames\FiapCloudGames.Domain\bin\Debug\net8.0\FiapCloudGames.Domain.dll
+C:\Users\leand\meus-projetos\PosTech\Grupo8\FiapCloudGames\FiapCloudGames.Domain\bin\Debug\net8.0\FiapCloudGames.Domain.pdb
+C:\Users\leand\meus-projetos\PosTech\Grupo8\FiapCloudGames\FiapCloudGames.Domain\obj\Debug\net8.0\FiapCloudGames.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\leand\meus-projetos\PosTech\Grupo8\FiapCloudGames\FiapCloudGames.Domain\obj\Debug\net8.0\FiapCloudGames.Domain.AssemblyInfoInputs.cache
+C:\Users\leand\meus-projetos\PosTech\Grupo8\FiapCloudGames\FiapCloudGames.Domain\obj\Debug\net8.0\FiapCloudGames.Domain.AssemblyInfo.cs
+C:\Users\leand\meus-projetos\PosTech\Grupo8\FiapCloudGames\FiapCloudGames.Domain\obj\Debug\net8.0\FiapCloudGames.Domain.csproj.CoreCompileInputs.cache
+C:\Users\leand\meus-projetos\PosTech\Grupo8\FiapCloudGames\FiapCloudGames.Domain\obj\Debug\net8.0\FiapCloudGames.Domain.sourcelink.json
+C:\Users\leand\meus-projetos\PosTech\Grupo8\FiapCloudGames\FiapCloudGames.Domain\obj\Debug\net8.0\FiapCloudGames.Domain.dll
+C:\Users\leand\meus-projetos\PosTech\Grupo8\FiapCloudGames\FiapCloudGames.Domain\obj\Debug\net8.0\refint\FiapCloudGames.Domain.dll
+C:\Users\leand\meus-projetos\PosTech\Grupo8\FiapCloudGames\FiapCloudGames.Domain\obj\Debug\net8.0\FiapCloudGames.Domain.pdb
+C:\Users\leand\meus-projetos\PosTech\Grupo8\FiapCloudGames\FiapCloudGames.Domain\obj\Debug\net8.0\ref\FiapCloudGames.Domain.dll

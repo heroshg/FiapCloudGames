@@ -1,0 +1,16 @@
+C:\Users\leand\meus-projetos\PosTech\Grupo8\FiapCloudGames\FiapCloudGames.Application\bin\Debug\net8.0\FiapCloudGames.Application.deps.json
+C:\Users\leand\meus-projetos\PosTech\Grupo8\FiapCloudGames\FiapCloudGames.Application\bin\Debug\net8.0\FiapCloudGames.Application.dll
+C:\Users\leand\meus-projetos\PosTech\Grupo8\FiapCloudGames\FiapCloudGames.Application\bin\Debug\net8.0\FiapCloudGames.Application.pdb
+C:\Users\leand\meus-projetos\PosTech\Grupo8\FiapCloudGames\FiapCloudGames.Application\bin\Debug\net8.0\FiapCloudGames.Domain.dll
+C:\Users\leand\meus-projetos\PosTech\Grupo8\FiapCloudGames\FiapCloudGames.Application\bin\Debug\net8.0\FiapCloudGames.Domain.pdb
+C:\Users\leand\meus-projetos\PosTech\Grupo8\FiapCloudGames\FiapCloudGames.Application\obj\Debug\net8.0\FiapCloudGames.Application.csproj.AssemblyReference.cache
+C:\Users\leand\meus-projetos\PosTech\Grupo8\FiapCloudGames\FiapCloudGames.Application\obj\Debug\net8.0\FiapCloudGames.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\leand\meus-projetos\PosTech\Grupo8\FiapCloudGames\FiapCloudGames.Application\obj\Debug\net8.0\FiapCloudGames.Application.AssemblyInfoInputs.cache
+C:\Users\leand\meus-projetos\PosTech\Grupo8\FiapCloudGames\FiapCloudGames.Application\obj\Debug\net8.0\FiapCloudGames.Application.AssemblyInfo.cs
+C:\Users\leand\meus-projetos\PosTech\Grupo8\FiapCloudGames\FiapCloudGames.Application\obj\Debug\net8.0\FiapCloudGames.Application.csproj.CoreCompileInputs.cache
+C:\Users\leand\meus-projetos\PosTech\Grupo8\FiapCloudGames\FiapCloudGames.Application\obj\Debug\net8.0\FiapCloudGames.Application.sourcelink.json
+C:\Users\leand\meus-projetos\PosTech\Grupo8\FiapCloudGames\FiapCloudGames.Application\obj\Debug\net8.0\FiapClou.FEA5CDF1.Up2Date
+C:\Users\leand\meus-projetos\PosTech\Grupo8\FiapCloudGames\FiapCloudGames.Application\obj\Debug\net8.0\FiapCloudGames.Application.dll
+C:\Users\leand\meus-projetos\PosTech\Grupo8\FiapCloudGames\FiapCloudGames.Application\obj\Debug\net8.0\refint\FiapCloudGames.Application.dll
+C:\Users\leand\meus-projetos\PosTech\Grupo8\FiapCloudGames\FiapCloudGames.Application\obj\Debug\net8.0\FiapCloudGames.Application.pdb
+C:\Users\leand\meus-projetos\PosTech\Grupo8\FiapCloudGames\FiapCloudGames.Application\obj\Debug\net8.0\ref\FiapCloudGames.Application.dll
