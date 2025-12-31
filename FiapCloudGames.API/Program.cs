@@ -5,18 +5,20 @@ using NetDevPack.SimpleMediator;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-builder.Services.AddApplicationModule();
-builder.Services.AddInfrastructureModule(builder.Configuration);
 builder.Services.AddControllers();
-builder.Services.AddSimpleMediator();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddApplicationModule();
+builder.Services.AddInfrastructureModule(builder.Configuration);
+
+// SimpleMediator (override IMediator lifetime to Scoped)
+builder.Services.AddSimpleMediator();
+builder.Services.AddScoped<IMediator, Mediator>();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

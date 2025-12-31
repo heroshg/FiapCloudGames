@@ -33,7 +33,7 @@ namespace FiapCloudGames.Domain.Identity
         public void TurnAdmin()
         {
             Role = Role.Admin;
-            UpdatedAt = DateTime.Now;
+            UpdatedAt = DateTime.UtcNow;
         }
     }
 }

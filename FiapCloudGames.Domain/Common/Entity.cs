@@ -5,8 +5,8 @@
         public Entity()
         {
             Id = Guid.NewGuid();
-            CreatedAt = DateTime.Now;
-            UpdatedAt = DateTime.Now;
+            CreatedAt = DateTime.UtcNow;
+            UpdatedAt = DateTime.UtcNow;
             IsActive = true;
         }
 
@@ -18,7 +18,7 @@
         public void Deactivate()
         {
             IsActive = false;
-            UpdatedAt = DateTime.Now;
+            UpdatedAt = DateTime.UtcNow;
         }
     }
 }
