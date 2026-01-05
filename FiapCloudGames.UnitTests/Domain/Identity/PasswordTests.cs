@@ -12,7 +12,7 @@ public class PasswordTests
         nameof(PasswordFakers.NullOrWhiteSpaceStrings),
         MemberType = typeof(PasswordFakers)
     )]
-    public void GivenNullOrWhiteSpacePassword_WhenValidate_ThenThrowsDomainException(string? password)
+    public void NullOrWhiteSpacePassword_Validate_ThrowsDomainException(string? password)
     {
         // Arrange
         // (nothing else)
@@ -29,7 +29,7 @@ public class PasswordTests
         nameof(PasswordFakers.InvalidPasswordsForPolicy),
         MemberType = typeof(PasswordFakers)
     )]
-    public void GivenInvalidPassword_WhenValidate_ThenThrowsDomainException(string password, string expectedMessagePart)
+    public void InvalidPassword_Validate_ThrowsDomainException(string password, string expectedMessagePart)
     {
         // Arrange
         // password already arranged by MemberData
@@ -42,7 +42,7 @@ public class PasswordTests
     }
 
     [Fact]
-    public void GivenValidPassword_WhenValidate_ThenDoesNotThrow()
+    public void ValidPassword_Validate_DoesNotThrow()
     {
         // Arrange
         var valid = PasswordFakers.GenerateValidPassword();
@@ -56,7 +56,7 @@ public class PasswordTests
     }
 
     [Fact]
-    public void GivenValidPlainTextPassword_WhenFromPlainText_ThenCreatesPasswordWithSameValue()
+    public void ValidPlainTextPassword_FromPlainText_CreatesPasswordWithSameValue()
     {
         // Arrange
         var valid = PasswordFakers.GenerateValidPassword();
@@ -73,7 +73,7 @@ public class PasswordTests
         nameof(PasswordFakers.NullOrWhiteSpaceStrings),
         MemberType = typeof(PasswordFakers)
     )]
-    public void GivenNullOrWhiteSpaceHash_WhenFromHash_ThenThrowsDomainException(string? hash)
+    public void NullOrWhiteSpaceHash_FromHash_ThrowsDomainException(string? hash)
     {
         // Arrange
         // (nothing else)
@@ -86,7 +86,7 @@ public class PasswordTests
     }
 
     [Fact]
-    public void GivenValidHash_WhenFromHash_ThenCreatesPasswordWithSameValue()
+    public void ValidHash_FromHash_CreatesPasswordWithSameValue()
     {
         // Arrange
         var hash = "some-hash";
