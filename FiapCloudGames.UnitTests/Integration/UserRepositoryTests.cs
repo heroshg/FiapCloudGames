@@ -1,4 +1,7 @@
 ﻿using FiapCloudGames.Domain.Identity;
+using FiapCloudGames.Domain.Identity.Entities;
+using FiapCloudGames.Domain.Identity.Repositories;
+using FiapCloudGames.Domain.Identity.ValueObjects;
 using FiapCloudGames.Infrastructure.Identity;
 using FiapCloudGames.Infrastructure.Persistence;
 using FiapCloudGames.Infrastructure.Persistence.Repositories;
@@ -52,10 +55,11 @@ namespace FiapCloudGames.Tests.Integration
             var plainPassword = Password.FromPlainText(mySecretUserToTests);
             var passwordHash = _passwordHasher.HashPassword(plainPassword.Value);
 
-            var user = new User(
+            var user = User.Create(
                 "Usuario de teste de integração.",
                 email,
-                Password.FromHash(passwordHash)
+                Password.FromHash(passwordHash),
+                false
             );
 
             var expectedUserId = user.Id;

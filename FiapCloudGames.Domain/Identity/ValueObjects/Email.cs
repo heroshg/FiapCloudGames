@@ -1,7 +1,7 @@
 ﻿using FiapCloudGames.Domain.Common;
 using System.Text.RegularExpressions;
 
-namespace FiapCloudGames.Domain.Identity
+namespace FiapCloudGames.Domain.Identity.ValueObjects
 {
     public class Email
     {

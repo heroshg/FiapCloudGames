@@ -1,4 +1,5 @@
-﻿using FiapCloudGames.Application.Commands.RegisterUser;
+﻿using FiapCloudGames.Application.Commands.NewLogin;
+using FiapCloudGames.Application.Commands.RegisterUser;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NetDevPack.SimpleMediator;
@@ -27,6 +28,18 @@ namespace FiapCloudGames.API.Controllers
             }
 
             return Ok(result.Data);
+        }
+        [HttpPut("login")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login(NewLoginCommand model, CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(model, cancellationToken);
+            if (!result.IsSuccess)
+            {
+               return BadRequest(result.Message);
+            }
+
+            return Ok(result);
         }
     }
 }

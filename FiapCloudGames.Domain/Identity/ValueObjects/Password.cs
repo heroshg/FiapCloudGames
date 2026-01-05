@@ -1,6 +1,7 @@
 ﻿using FiapCloudGames.Domain.Common;
+using FiapCloudGames.Domain.Identity.Policies;
 
-namespace FiapCloudGames.Domain.Identity
+namespace FiapCloudGames.Domain.Identity.ValueObjects
 {
     public class Password
     {

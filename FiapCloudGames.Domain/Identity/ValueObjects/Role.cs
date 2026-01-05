@@ -1,4 +1,4 @@
-﻿namespace FiapCloudGames.Domain.Identity
+﻿namespace FiapCloudGames.Domain.Identity.ValueObjects
 {
     public class Role
     {

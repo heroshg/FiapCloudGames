@@ -1,18 +1,19 @@
 ﻿using FiapCloudGames.Application.Models;
 using FiapCloudGames.Domain.Identity;
+using FiapCloudGames.Domain.Identity.Entities;
+using FiapCloudGames.Domain.Identity.Repositories;
+using FiapCloudGames.Domain.Identity.ValueObjects;
 using NetDevPack.SimpleMediator;
 
 namespace FiapCloudGames.Application.Commands.RegisterUser
 {
     public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, ResultViewModel<Guid>>
     { 
-        private readonly EmailUniquenessPolicy _uniquenessPolicy;
         private readonly IUserRepository _repository;
         private readonly IPasswordHasher _passwordHasher;
 
-        public RegisterUserCommandHandler(EmailUniquenessPolicy uniquenessPolicy, IUserRepository repository, IPasswordHasher passwordHasher)
+        public RegisterUserCommandHandler(IUserRepository repository, IPasswordHasher passwordHasher)
         {
-            _uniquenessPolicy = uniquenessPolicy;
             _repository = repository;
             _passwordHasher = passwordHasher;
         }
@@ -24,14 +25,13 @@ namespace FiapCloudGames.Application.Commands.RegisterUser
             var email = new Email(request.Email);
             var plainPassword = Password.FromPlainText(request.Password);
 
-            await _uniquenessPolicy.EnsureEmailIsUniqueAsync(email.Address);
-
             var passwordHash = _passwordHasher.HashPassword(plainPassword.Value);
 
-            var user = new User(
+            var user = User.Create(
                 request.Name,
                 email,
-                Password.FromHash(passwordHash)
+                Password.FromHash(passwordHash),
+                await _repository.IsEmailRegisteredAsync(request.Email)
             );
 
             var id = await _repository.AddAsync(user, cancellationToken);

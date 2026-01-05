@@ -1,5 +1,6 @@
 using FiapCloudGames.Domain.Common;
-using FiapCloudGames.Domain.Identity;
+using FiapCloudGames.Domain.Identity.Entities;
+using FiapCloudGames.Domain.Identity.ValueObjects;
 using System;
 using Xunit;
 
@@ -23,7 +24,7 @@ public class UserTests
         var password = Password.FromHash("hash");
 
         // Act
-        var user = new User(name, email, password);
+        var user = User.Create(name, email, password, false);
 
         // Assert
         Assert.Equal(email, user.Email);
@@ -36,7 +37,7 @@ public class UserTests
     public void UserRoleUser_TurnAdmin_ShouldSetRoleAdminAndUpdateUpdatedAt()
     {
         // Arrange
-        var user = new User("Test User", new Email("user@example.com"), Password.FromHash("hash"));
+        var user = User.Create("Test User", new Email("user@example.com"), Password.FromHash("hash"), false);
         var before = user.UpdatedAt;
 
         // Act
@@ -56,7 +57,7 @@ public class UserTests
         var password = Password.FromHash("hash");
 
         // Act
-        var act = () => new User(name!, email, password);
+        var act = () => User.Create(name!, email, password, false);
 
         // Assert
         Assert.Throws<DomainException>(act);
@@ -71,7 +72,7 @@ public class UserTests
         var password = Password.FromHash("hash");
 
         // Act
-        var act = () => new User(name, email, password);
+        var act = () => User.Create(name, email, password, false);
 
         // Assert
         Assert.Throws<DomainException>(act);
@@ -86,7 +87,7 @@ public class UserTests
         var password = Password.FromHash("hash");
 
         // Act
-        var act = () => new User(name, email, password);
+        var act = () =>  User.Create(name, email, password, false);
 
         // Assert
         var ex = Record.Exception(act);

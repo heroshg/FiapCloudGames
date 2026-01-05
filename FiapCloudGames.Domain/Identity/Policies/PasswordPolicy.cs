@@ -1,6 +1,6 @@
 ﻿using FiapCloudGames.Domain.Common;
 
-namespace FiapCloudGames.Domain.Identity
+namespace FiapCloudGames.Domain.Identity.Policies
 {
     public static class PasswordPolicy
     {

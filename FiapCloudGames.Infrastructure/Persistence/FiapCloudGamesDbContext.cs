@@ -1,5 +1,5 @@
 ﻿using FiapCloudGames.Domain.Games;
-using FiapCloudGames.Domain.Identity;
+using FiapCloudGames.Domain.Identity.Entities;
 using FiapCloudGames.Infrastructure.Persistence.Configurations;
 using Microsoft.EntityFrameworkCore;
 

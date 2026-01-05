@@ -1,42 +1,39 @@
 ﻿using FiapCloudGames.Application.Models;
-using FiapCloudGames.Domain.Common;
 using FiapCloudGames.Domain.Games;
-using FiapCloudGames.Domain.Identity;
+using FiapCloudGames.Domain.Identity.Repositories;
 using NetDevPack.SimpleMediator;
 
 namespace FiapCloudGames.Application.Commands.PurchaseGameLicense
 {
-    internal class PurchaseGameLicenseCommandHandler : IRequestHandler<PurchaseGameLicenseCommand, ResultViewModel<Guid>>
+    public class PurchaseGameLicenseCommandHandler : IRequestHandler<PurchaseGameLicenseCommand, ResultViewModel<Guid>>
     {
         private readonly IUserRepository _userRepository;
         private readonly IGameRepository _gameRepository;
         private readonly IGameLicenseRepository _gameLicenseRepository;
-        private readonly GameOwnershipPolicy _gameOwnershipPolicy;
+        private readonly IGamePurchaseService _purchaseService;
 
-        public PurchaseGameLicenseCommandHandler(IUserRepository userRepository, IGameRepository gameRepository, IGameLicenseRepository gameLicenseRepository, GameOwnershipPolicy gameOwnershipPolicy)
+        public PurchaseGameLicenseCommandHandler(IUserRepository userRepository, IGameRepository gameRepository, IGameLicenseRepository gameLicenseRepository, IGamePurchaseService purchaseService)
         {
             _userRepository = userRepository;
             _gameRepository = gameRepository;
             _gameLicenseRepository = gameLicenseRepository;
-            _gameOwnershipPolicy = gameOwnershipPolicy;
+            _purchaseService = purchaseService;
         }
 
         public async Task<ResultViewModel<Guid>> Handle(PurchaseGameLicenseCommand request, CancellationToken cancellationToken)
         {
-            var user = _userRepository.GetByIdAsync(request.UserId, cancellationToken);
+            var user = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
             if(user is null)
             {
                 return ResultViewModel<Guid>.Error("User not found.");
             }
-            var game = _gameRepository.GetByIdAsync(request.GameId, cancellationToken);
+            var game = await _gameRepository.GetByIdAsync(request.GameId, cancellationToken);
             if(game is null)
             {
                 return ResultViewModel<Guid>.Error("Game not found.");
             }
 
-            await _gameOwnershipPolicy.EnsureUserOwnsGameAsync(request.UserId, request.GameId, cancellationToken);
-
-            var gameLicense = new GameLicense(request.GameId, request.UserId, request.ExpirationDate);
+            var gameLicense = await _purchaseService.PurchaseGameAsync(request.GameId, request.UserId, request.ExpirationDate, cancellationToken);
 
             var id = await _gameLicenseRepository.PurchaseAsync(gameLicense, cancellationToken);
 

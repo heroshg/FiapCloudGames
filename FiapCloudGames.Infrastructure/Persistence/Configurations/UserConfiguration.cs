@@ -1,4 +1,4 @@
-﻿using FiapCloudGames.Domain.Identity;
+﻿using FiapCloudGames.Domain.Identity.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
