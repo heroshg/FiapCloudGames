@@ -40,6 +40,7 @@ namespace FiapCloudGames.Infrastructure
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IGameRepository, GameRepository>();
             services.AddScoped<IGameLicenseRepository, GameLicenseRepository>();
+            services.AddScoped<IPromotionRepository, PromotionRepository>();
             return services;
         }
         private static IServiceCollection AddDomainServices(this IServiceCollection services)

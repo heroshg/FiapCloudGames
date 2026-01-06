@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Games\Promotion.cs~RF47e611.TMP" />
+  </ItemGroup>
+
 </Project>

@@ -17,11 +17,12 @@ namespace FiapCloudGames.Infrastructure.Persistence
             modelBuilder.ApplyConfiguration(new GameConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new GameLicenseConfiguration());
+            modelBuilder.ApplyConfiguration(new PromotionConfiguration());
         }
 
         public DbSet<User> Users { get; set; }
         public DbSet<Game> Games { get; set; }
         public DbSet<GameLicense> GameLicenses { get; set; }
-
+        public DbSet<Promotion> Promotions { get; set; }
     }
 }

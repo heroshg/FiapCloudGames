@@ -3,6 +3,7 @@ using System;
 using FiapCloudGames.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FiapCloudGames.Infrastructure.Migrations
 {
     [DbContext(typeof(FiapCloudGamesDbContext))]
-    partial class FiapCloudGamesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260106193855_AddPromotion")]
+    partial class AddPromotion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
