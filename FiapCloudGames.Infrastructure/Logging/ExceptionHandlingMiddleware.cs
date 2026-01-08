@@ -24,7 +24,7 @@ namespace FiapCloudGames.Infrastructure.Logging;
             }
             catch (DomainException ex)
             {
-                logger.LogWarning(ex.Message);
+                logger.LogWarning(ex.ToString());
                 await WriteResponse(context, HttpStatusCode.BadRequest, ex.Message!);
             }
             catch (Exception ex)
