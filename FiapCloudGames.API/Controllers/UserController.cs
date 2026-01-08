@@ -1,5 +1,6 @@
 ﻿using FiapCloudGames.Application.Commands.NewLogin;
 using FiapCloudGames.Application.Commands.RegisterUser;
+using FiapCloudGames.Infrastructure.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NetDevPack.SimpleMediator;
@@ -11,10 +12,12 @@ namespace FiapCloudGames.API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly BaseLogger<GameLicenseController> _logger;
 
-        public UserController(IMediator mediator)
+        public UserController(IMediator mediator, BaseLogger<GameLicenseController> logger)
         {
             _mediator = mediator;
+            _logger = logger;
         }
 
         [HttpPost]
@@ -22,10 +25,12 @@ namespace FiapCloudGames.API.Controllers
         {
             var result = await _mediator.Send(model, cancellationToken);
 
-            if(!result.IsSuccess)
+            if (!result.IsSuccess)
             {
+                _logger.LogError($"Register user failed: {result.Message}");
                 return BadRequest(result.Message);
             }
+
 
             return Ok(result.Data);
         }
@@ -36,7 +41,8 @@ namespace FiapCloudGames.API.Controllers
             var result = await _mediator.Send(model, cancellationToken);
             if (!result.IsSuccess)
             {
-               return BadRequest(result.Message);
+                _logger.LogError($"Login failed: {result.Message}");
+                return BadRequest(result.Message);
             }
 
             return Ok(result);

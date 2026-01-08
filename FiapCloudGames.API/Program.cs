@@ -1,21 +1,38 @@
-using FiapCloudGames.Application;
+﻿using FiapCloudGames.Application;
 using FiapCloudGames.Infrastructure;
+using FiapCloudGames.Infrastructure.Logging;
 using Microsoft.OpenApi.Models;
-using NetDevPack.SimpleMediator;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .Enrich.FromLogContext()
+    .Enrich.WithProperty("Application", "FiapCloudGames.API")
+    .WriteTo.Console()
+    .WriteTo.NewRelicLogs(
+        licenseKey: Environment.GetEnvironmentVariable("NEW_RELIC_LICENSE_KEY"),
+        applicationName: "FiapCloudGames.API"
+    )
+    .CreateLogger();
+
+builder.Host.UseSerilog();
+
+
 builder.Services.AddApplication();
 builder.Services.AddInfrastructureModule(builder.Configuration);
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "FiapCloudGames API",
+        Version = "v1"
+    });
 
-    // Add Bearer token to Swagger UI
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -26,24 +43,24 @@ builder.Services.AddSwaggerGen(c =>
     });
 
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
         {
+            new OpenApiSecurityScheme
             {
-                new OpenApiSecurityScheme
+                Reference = new OpenApiReference
                 {
-                    Reference = new OpenApiReference
-                    {
-                        Type = ReferenceType.SecurityScheme,
-                        Id = "Bearer"
-                    }
-                },
-                new string[] { }
-            }
-        });
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
 });
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -52,6 +69,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCorrelationMiddleware();
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

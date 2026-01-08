@@ -1,4 +1,5 @@
 ﻿using FiapCloudGames.Application.Commands.RegisterGame;
+using FiapCloudGames.Infrastructure.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NetDevPack.SimpleMediator;
@@ -11,10 +12,12 @@ namespace FiapCloudGames.API.Controllers
     public class GamesController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly BaseLogger<GameLicenseController> _logger;
 
-        public GamesController(IMediator mediator)
+        public GamesController(IMediator mediator, BaseLogger<GameLicenseController> logger)
         {
             _mediator = mediator;
+            _logger = logger;
         }
 
         [HttpPost]
@@ -25,8 +28,10 @@ namespace FiapCloudGames.API.Controllers
 
             if(!result.IsSuccess)
             {
+                _logger.LogError($"Error registering game: {result.Message}");
                 return BadRequest(result.Message);
             }
+
             return Ok(result.Data);
         }
 

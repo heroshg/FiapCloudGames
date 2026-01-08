@@ -31,5 +31,9 @@
 
         public static ResultViewModel<T> Error(string message)
             => new(default, false, message);
+        public override string ToString()
+        {
+            return "ResultViewModel { IsSuccess: " + IsSuccess + ", Message: " + Message + ", Data: " + (Data != null ? Data.ToString() : "null") + " }";
+        }
     }
 }

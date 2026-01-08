@@ -3,6 +3,8 @@ using FiapCloudGames.Domain.Identity;
 using FiapCloudGames.Domain.Identity.Repositories;
 using FiapCloudGames.Infrastructure.Auth;
 using FiapCloudGames.Infrastructure.Identity;
+using FiapCloudGames.Infrastructure.Logging;
+using FiapCloudGames.Infrastructure.Logs;
 using FiapCloudGames.Infrastructure.Persistence;
 using FiapCloudGames.Infrastructure.Persistence.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -23,6 +25,8 @@ namespace FiapCloudGames.Infrastructure
             services.AddRepositoriesDependencies();
             services.AddAuth(configuration);
             services.AddDomainServices();
+            services.AddCorrelationIdGenerator();
+            services.AddLogger();
             return services;
         }
 
@@ -70,6 +74,18 @@ namespace FiapCloudGames.Infrastructure
                 });
             return services;
         }
-        
+
+        private static IServiceCollection AddCorrelationIdGenerator(this IServiceCollection services)
+        {
+            services.AddScoped<ICorrelationIdGenerator, CorrelationIdGenerator>();
+            return services;
+        }
+
+        private static IServiceCollection AddLogger(this IServiceCollection services)
+        {
+            services.AddScoped(typeof(BaseLogger<>));
+            return services;
+        }
+
     }
 }

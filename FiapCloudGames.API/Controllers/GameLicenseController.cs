@@ -1,4 +1,6 @@
 ﻿using FiapCloudGames.Application.Commands.PurchaseGameLicense;
+using FiapCloudGames.Infrastructure.Logging;
+using FiapCloudGames.Infrastructure.Logs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NetDevPack.SimpleMediator;
@@ -6,17 +8,18 @@ using NetDevPack.SimpleMediator;
 namespace FiapCloudGames.API.Controllers
 {
 
-
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
     public class GameLicenseController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly BaseLogger<GameLicenseController> _logger;
 
-        public GameLicenseController(IMediator mediator)
+        public GameLicenseController(IMediator mediator, BaseLogger<GameLicenseController> logger)
         {
             _mediator = mediator;
+            _logger = logger;
         }
 
 
@@ -28,7 +31,8 @@ namespace FiapCloudGames.API.Controllers
 
             if (!result.IsSuccess)
             {
-                return BadRequest(result);
+                _logger.LogError($"PurchaseGameLicense failed. Reason={result.Message}");
+                return BadRequest(result.Message);
             }
 
             return Ok(result.Data);
