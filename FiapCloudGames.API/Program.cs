@@ -9,11 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Information()
     .Enrich.FromLogContext()
-    .Enrich.WithProperty("Application", "FiapCloudGames.API")
+    .Enrich.WithProperty("Application", "FiapCloudGames")
     .WriteTo.Console()
     .WriteTo.NewRelicLogs(
         licenseKey: Environment.GetEnvironmentVariable("NEW_RELIC_LICENSE_KEY"),
-        applicationName: "FiapCloudGames.API"
+        applicationName: "FiapCloudGames"
     )
     .CreateLogger();
 
