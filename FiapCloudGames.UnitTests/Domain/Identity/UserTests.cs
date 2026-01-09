@@ -34,14 +34,15 @@ public class UserTests
     }
 
     [Fact]
-    public void UserRoleUser_TurnAdmin_ShouldSetRoleAdminAndUpdateUpdatedAt()
+    public void UserRoleUser_ChangeRoleToAdmin_ShouldSetRoleAdminAndUpdateUpdatedAt()
     {
         // Arrange
         var user = User.Create("Test User", new Email("user@example.com"), Password.FromHash("hash"), false);
         var before = user.UpdatedAt;
+        var roleAdmin = Role.Admin;
 
         // Act
-        user.TurnAdmin();
+        user.ChangeRole(roleAdmin);
 
         // Assert
         Assert.Equal(Role.Admin, user.Role);

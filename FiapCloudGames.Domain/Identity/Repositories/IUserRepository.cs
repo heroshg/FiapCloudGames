@@ -9,5 +9,7 @@ namespace FiapCloudGames.Domain.Identity.Repositories
         Task<User?> GetByIdAsync(Guid userId, CancellationToken cancellationToken);
         Task<bool> ExistsById(Guid id, CancellationToken cancellationToken);
         Task<User?> GetUser(string email);
+        Task<List<User>> ListAsync(string? search, bool includeInactive, CancellationToken cancellationToken);
+        Task UpdateAsync(User user, CancellationToken cancellationToken);
     }
 }

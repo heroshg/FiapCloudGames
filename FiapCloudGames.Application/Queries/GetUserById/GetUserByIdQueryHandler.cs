@@ -1,0 +1,31 @@
+﻿using FiapCloudGames.Application.Models;
+using FiapCloudGames.Domain.Identity.Repositories;
+using NetDevPack.SimpleMediator;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace FiapCloudGames.Application.Queries.GetUserById
+{
+    public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, ResultViewModel<UserAdminViewModel>>
+    {
+        private readonly IUserRepository _repository;
+
+        public GetUserByIdQueryHandler(IUserRepository repository)
+        {
+            _repository = repository;
+        }
+
+        public async Task<ResultViewModel<UserAdminViewModel>> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
+        {
+            var user = await _repository.GetByIdAsync(request.Id, cancellationToken);
+
+            if (user is null)
+                return ResultViewModel<UserAdminViewModel>.Error("User not found.");
+
+            return ResultViewModel<UserAdminViewModel>.Success(UserAdminViewModel.FromEntity(user));
+        }
+    }
+}
