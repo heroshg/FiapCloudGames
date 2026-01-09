@@ -37,7 +37,7 @@ namespace FiapCloudGames.API.Controllers
             return Ok(result.Data);
         }
 
-        [HttpPost]
+        [HttpPost("Purchase")]
         public async Task<IActionResult> PurchasePromotion(PurchasePromotionCommand model, CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(model, cancellationToken);
