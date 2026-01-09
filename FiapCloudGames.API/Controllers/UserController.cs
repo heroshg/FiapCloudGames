@@ -55,7 +55,7 @@ namespace FiapCloudGames.API.Controllers
 
 
 
-        [HttpGet("admin/users")]
+        [HttpGet]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetUsers([FromQuery] ListUsersQuery model, CancellationToken ct)
         {
@@ -74,7 +74,7 @@ namespace FiapCloudGames.API.Controllers
         }
 
 
-        [HttpGet("admin/users/{id:guid}")]
+        [HttpGet("{id:guid}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetUserById(Guid id, CancellationToken ct)
         {
@@ -90,7 +90,7 @@ namespace FiapCloudGames.API.Controllers
             return Ok(result.Data);
         }
 
-        [HttpPut("admin/users/{id:guid}")]
+        [HttpPut("{id:guid}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateUser(Guid id, [FromBody] UpdateUserRequest body, CancellationToken ct)
         {
@@ -106,7 +106,7 @@ namespace FiapCloudGames.API.Controllers
             return Ok(result.Data);
         }
 
-        [HttpPut("admin/users/{id:guid}/role")]
+        [HttpPut("{id:guid}/role")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ChangeRole(Guid id, [FromBody] ChangeUserRoleRequest body, CancellationToken ct)
         {
@@ -124,7 +124,7 @@ namespace FiapCloudGames.API.Controllers
             return Ok(result.Data);
         }
 
-        [HttpDelete("admin/users/{id:guid}")]
+        [HttpDelete("{id:guid}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteUser(Guid id, CancellationToken ct)
         {
