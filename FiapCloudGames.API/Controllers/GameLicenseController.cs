@@ -24,7 +24,6 @@ namespace FiapCloudGames.API.Controllers
 
 
         [HttpPost]
-        [Authorize(Roles = "User,Admin")]
         public async Task<IActionResult> PurchaseGameLicense(PurchaseGameLicenseCommand model,CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(model, cancellationToken);
