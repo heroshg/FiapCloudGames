@@ -1,4 +1,5 @@
 ﻿using FiapCloudGames.Domain.Games;
+using Microsoft.EntityFrameworkCore;
 
 namespace FiapCloudGames.Infrastructure.Persistence.Repositories
 {
@@ -21,7 +22,7 @@ namespace FiapCloudGames.Infrastructure.Persistence.Repositories
 
         public async Task<Promotion?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            return await _context.Promotions.SingleOrDefault(p => p.Id == id, cancellationToken);
+            return await _context.Promotions.SingleOrDefaultAsync(p => p.Id == id, cancellationToken);
         }
     }
 }
