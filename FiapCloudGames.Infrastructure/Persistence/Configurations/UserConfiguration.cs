@@ -19,6 +19,11 @@ namespace FiapCloudGames.Infrastructure.Persistence.Configurations
                    .IsUnique();
             });
 
+            builder.Property(u => u.Balance)
+                   .IsRequired()
+                   .HasColumnType("decimal(10,2)")
+                   .HasDefaultValue(0);
+
             builder.OwnsOne(u => u.Password, password =>
             {
                 password.Property(p => p.Value)

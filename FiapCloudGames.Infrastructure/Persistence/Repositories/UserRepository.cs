@@ -1,4 +1,5 @@
-﻿using FiapCloudGames.Domain.Identity.Entities;
+﻿using FiapCloudGames.Domain.Games;
+using FiapCloudGames.Domain.Identity.Entities;
 using FiapCloudGames.Domain.Identity.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,6 +29,15 @@ namespace FiapCloudGames.Infrastructure.Persistence.Repositories
         public async Task<User?> GetByIdAsync(Guid userId, CancellationToken cancellationToken)
         {
             return await _context.Users.AsNoTracking().SingleOrDefaultAsync(u => u.Id == userId, cancellationToken);
+        }
+
+        public async Task<IEnumerable<Guid>> GetGamesAsync(Guid userId, CancellationToken cancellationToken)
+        {
+            return await _context.GameLicenses
+                .AsNoTracking()
+                .Where(gl => gl.UserId == userId)
+                .Select(gl => gl.GameId)
+                .ToListAsync(cancellationToken);
         }
 
         public Task<User?> GetUser(string email)

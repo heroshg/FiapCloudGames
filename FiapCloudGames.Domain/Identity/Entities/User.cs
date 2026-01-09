@@ -7,6 +7,12 @@ namespace FiapCloudGames.Domain.Identity.Entities
     {
         private const int maxNameLength = 150;
 
+        // EF Core
+        public User()
+        {
+
+        }
+
         public static User Create(string name, Email email, Password password, bool emailAlreadyExists)
         {
             if (string.IsNullOrWhiteSpace(name))
@@ -18,33 +24,44 @@ namespace FiapCloudGames.Domain.Identity.Entities
             if(emailAlreadyExists) {
                 throw new DomainException("Email already in use.");
             }
-            
+
+
 
             return new User
             {
                 Name = name,
                 Email = email ?? throw new DomainException("Email is required."),
                 Password = password ?? throw new DomainException("Password is required."),
-                Role = Role.User
+                Role = Role.User,
+                Balance = 0m
             };
             
         }
 
-        // EF Core
-        public User()
+        public void Debit(decimal amount)
         {
-            
+            if (amount <= 0)
+                throw new DomainException("Amount must be greater than zero.");
+            if (Balance < amount)
+                throw new DomainException("Insufficient balance.");
+            Balance -= amount;
+            UpdatedAt = DateTime.UtcNow;
         }
 
-        public Email Email { get; private set; }
-        public Password Password { get; private set; }
-        public Role Role { get; private set; }
-        public string Name { get; private set; }
+        public bool CanAfford(decimal amount)
+            => Balance >= amount;
 
         public void TurnAdmin()
         {
             Role = Role.Admin;
             UpdatedAt = DateTime.UtcNow;
         }
+
+        public Email Email { get; private set; }
+        public Password Password { get; private set; }
+        public Role Role { get; private set; }
+        public string Name { get; private set; }
+        public decimal Balance { get; private set; }
+        
     }
 }

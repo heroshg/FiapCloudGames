@@ -20,7 +20,7 @@ public class RegisterGameCommandHandlerTests
         repo.Setup(r => r.AddGameAsync(It.IsAny<Game>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(expectedId);
 
-        var sut = new RegisterGameCommandHandler(repo.Object);
+        var sut = new RegisterGameHandler(repo.Object);
 
         var cmd = new RegisterGameCommand(
             Name: "Hades",
@@ -52,7 +52,7 @@ public class RegisterGameCommandHandlerTests
         repo.Setup(r => r.AddGameAsync(It.IsAny<Game>(), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new Exception("Database error"));
 
-        var sut = new RegisterGameCommandHandler(repo.Object);
+        var sut = new RegisterGameHandler(repo.Object);
 
         var cmd = new RegisterGameCommand(
             Name: "Hades",
@@ -73,7 +73,7 @@ public class RegisterGameCommandHandlerTests
     {
         // Arrange
         var repo = new Mock<IGameRepository>();
-        var sut = new RegisterGameCommandHandler(repo.Object);
+        var sut = new RegisterGameHandler(repo.Object);
 
         var cmd = new RegisterGameCommand(
             Name: "Hades",
@@ -100,7 +100,7 @@ public class RegisterGameCommandHandlerTests
     {
         // Arrange
         var repo = new Mock<IGameRepository>();
-        var sut = new RegisterGameCommandHandler(repo.Object);
+        var sut = new RegisterGameHandler(repo.Object);
 
         var cmd = new RegisterGameCommand(
             Name: name,
@@ -127,7 +127,7 @@ public class RegisterGameCommandHandlerTests
     {
         // Arrange
         var repo = new Mock<IGameRepository>();
-        var sut = new RegisterGameCommandHandler(repo.Object);
+        var sut = new RegisterGameHandler(repo.Object);
 
         var cmd = new RegisterGameCommand(
             Name: "Hades",
@@ -153,7 +153,7 @@ public class RegisterGameCommandHandlerTests
         repo.Setup(r => r.AddGameAsync(It.IsAny<Game>(), It.IsAny<CancellationToken>()))
             .Returns<Game, CancellationToken>((_, ct) => Task.FromCanceled<Guid>(ct));
 
-        var sut = new RegisterGameCommandHandler(repo.Object);
+        var sut = new RegisterGameHandler(repo.Object);
 
         using var cts = new CancellationTokenSource();
         cts.Cancel();

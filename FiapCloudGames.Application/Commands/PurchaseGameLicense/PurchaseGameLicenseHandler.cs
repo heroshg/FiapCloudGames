@@ -5,14 +5,14 @@ using NetDevPack.SimpleMediator;
 
 namespace FiapCloudGames.Application.Commands.PurchaseGameLicense
 {
-    public class PurchaseGameLicenseCommandHandler : IRequestHandler<PurchaseGameLicenseCommand, ResultViewModel<Guid>>
+    public class PurchaseGameLicenseHandler : IRequestHandler<PurchaseGameLicenseCommand, ResultViewModel<Guid>>
     {
         private readonly IUserRepository _userRepository;
         private readonly IGameRepository _gameRepository;
         private readonly IGameLicenseRepository _gameLicenseRepository;
         private readonly IGamePurchaseService _purchaseService;
 
-        public PurchaseGameLicenseCommandHandler(IUserRepository userRepository, IGameRepository gameRepository, IGameLicenseRepository gameLicenseRepository, IGamePurchaseService purchaseService)
+        public PurchaseGameLicenseHandler(IUserRepository userRepository, IGameRepository gameRepository, IGameLicenseRepository gameLicenseRepository, IGamePurchaseService purchaseService)
         {
             _userRepository = userRepository;
             _gameRepository = gameRepository;

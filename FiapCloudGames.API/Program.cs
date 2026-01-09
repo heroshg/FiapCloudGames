@@ -6,16 +6,25 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-Log.Logger = new LoggerConfiguration()
+builder.Configuration
+    .AddUserSecrets<Program>(optional: true);
+
+var newRelicKey = builder.Configuration["NEW_RELIC_LICENSE_KEY"];
+
+var loggerConfig = new LoggerConfiguration()
     .MinimumLevel.Information()
     .Enrich.FromLogContext()
-    .Enrich.WithProperty("Application", "FiapCloudGames")
-    .WriteTo.Console()
-    .WriteTo.NewRelicLogs(
-        licenseKey: Environment.GetEnvironmentVariable("NEW_RELIC_LICENSE_KEY"),
+    .WriteTo.Console();
+
+if (!string.IsNullOrWhiteSpace(newRelicKey))
+{
+    loggerConfig = loggerConfig.WriteTo.NewRelicLogs(
+        licenseKey: newRelicKey,
         applicationName: "FiapCloudGames"
-    )
-    .CreateLogger();
+    );
+}
+
+Log.Logger = loggerConfig.CreateLogger();
 
 builder.Host.UseSerilog();
 

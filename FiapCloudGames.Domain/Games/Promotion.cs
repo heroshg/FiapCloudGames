@@ -1,11 +1,12 @@
 ﻿using FiapCloudGames.Domain.Common;
+using FiapCloudGames.Domain.Identity.Entities;
 
 namespace FiapCloudGames.Domain.Games
 {
     public class Promotion : Entity
     {
         
-        public Promotion Create(
+        public Promotion(
             string name,
             Discount discount,
             DateTime? startsAt,
@@ -65,8 +66,34 @@ namespace FiapCloudGames.Domain.Games
 
 
             IsActive = DateTime.UtcNow >= StartsAt && DateTime.UtcNow <= EndsAt;
-            return this;
         }
+
+        public List<GameLicense> Purchase(User user, IEnumerable<Guid> ownedGamesIds)
+        {
+            var gamesToPurchase = Games
+                .Where(g => !ownedGamesIds.Contains(g.Id))
+                .ToList();
+
+            if(gamesToPurchase.Count == 0)
+            {
+                throw new DomainException("No new games to purchase.");
+            }
+
+            var totalAmount = gamesToPurchase.Sum(g => g.Price);
+
+            if(!user.CanAfford(totalAmount))
+            {
+                throw new DomainException("Insuficient user balance.");
+            }
+
+            user.Debit(totalAmount);
+
+            return gamesToPurchase
+            .Select(g => new GameLicense(user.Id, g.Id, null))
+            .ToList();
+        }
+
+
         public string Name { get; private set; } = string.Empty;
         public Discount Discount { get; private set; } = null!;
         public DateTime? StartsAt { get; private set; }

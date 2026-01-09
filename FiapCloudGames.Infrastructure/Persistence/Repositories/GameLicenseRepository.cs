@@ -24,5 +24,11 @@ namespace FiapCloudGames.Infrastructure.Persistence.Repositories
             await _context.SaveChangesAsync(cancellationToken);
             return gameLicense.Id;
         }
+
+        public async Task PurchaseGamesAsync(IEnumerable<GameLicense> gameLicenses, CancellationToken cancellationToken)
+        {
+            await _context.GameLicenses.AddRangeAsync(gameLicenses, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
+        }
     }
 }

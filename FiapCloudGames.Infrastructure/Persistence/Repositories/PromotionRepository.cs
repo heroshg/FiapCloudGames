@@ -18,5 +18,10 @@ namespace FiapCloudGames.Infrastructure.Persistence.Repositories
 
             return promotion.Id;
         }
+
+        public async Task<Promotion?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        {
+            return await _context.Promotions.SingleOrDefault(p => p.Id == id, cancellationToken);
+        }
     }
 }

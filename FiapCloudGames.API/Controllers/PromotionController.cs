@@ -1,4 +1,5 @@
-﻿using FiapCloudGames.Application.Commands.RegisterPromotion;
+﻿using FiapCloudGames.Application.Commands.PurchasePromotion;
+using FiapCloudGames.Application.Commands.RegisterPromotion;
 using FiapCloudGames.Infrastructure.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -34,6 +35,18 @@ namespace FiapCloudGames.API.Controllers
             }
 
             return Ok(result.Data);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PurchasePromotion(PurchasePromotionCommand model, CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(model, cancellationToken);
+            if(!result.IsSuccess)
+            {
+                _logger.LogError($"PurchasePromotion failed: {result.Message}");
+                return BadRequest(result.Message);
+            }
+            return Ok(result);
         }
 
     }
