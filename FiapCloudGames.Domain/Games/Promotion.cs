@@ -5,7 +5,10 @@ namespace FiapCloudGames.Domain.Games
 {
     public class Promotion : Entity
     {
-        
+        public Promotion()
+        {
+
+        }
         public Promotion(
             string name,
             Discount discount,

@@ -1,4 +1,5 @@
-﻿using FiapCloudGames.Application.Commands.NewLogin;
+﻿using FiapCloudGames.Application.Commands.ChangeUserRole;
+using FiapCloudGames.Application.Commands.NewLogin;
 using FiapCloudGames.Application.Commands.RegisterUser;
 using FiapCloudGames.Infrastructure.Logging;
 using Microsoft.AspNetCore.Authorization;
@@ -47,5 +48,18 @@ namespace FiapCloudGames.API.Controllers
 
             return Ok(result);
         }
+
+        [HttpPut("ChangeRole")]
+        public async Task<IActionResult> ChangeRole(ChangeUserRoleCommand model, CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(model, cancellationToken);
+            if (!result.IsSuccess)
+            {
+                _logger.LogError($"Change user role failed: {result.Message}");
+                return BadRequest(result.Message);
+            }
+            return Ok(result.Data);
+        }
+
     }
 }
