@@ -13,9 +13,9 @@ namespace FiapCloudGames.API.Controllers
     public class GamesController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly BaseLogger<GameLicenseController> _logger;
+        private readonly BaseLogger<GameLicensesController> _logger;
 
-        public GamesController(IMediator mediator, BaseLogger<GameLicenseController> logger)
+        public GamesController(IMediator mediator, BaseLogger<GameLicensesController> logger)
         {
             _mediator = mediator;
             _logger = logger;

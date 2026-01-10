@@ -11,12 +11,12 @@ namespace FiapCloudGames.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class GameLicenseController : ControllerBase
+    public class GameLicensesController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly BaseLogger<GameLicenseController> _logger;
+        private readonly BaseLogger<GameLicensesController> _logger;
 
-        public GameLicenseController(IMediator mediator, BaseLogger<GameLicenseController> logger)
+        public GameLicensesController(IMediator mediator, BaseLogger<GameLicensesController> logger)
         {
             _mediator = mediator;
             _logger = logger;
