@@ -5,11 +5,11 @@ using NetDevPack.SimpleMediator;
 
 namespace FiapCloudGames.Application.Commands.UpdateUser
 {
-    public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, ResultViewModel<UserAdminViewModel>>
+    public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, ResultViewModel<UserAdminViewModel>>
     {
         private readonly IUserRepository _repository;
 
-        public UpdateUserCommandHandler(IUserRepository repository)
+        public UpdateUserHandler(IUserRepository repository)
         {
             _repository = repository;
         }

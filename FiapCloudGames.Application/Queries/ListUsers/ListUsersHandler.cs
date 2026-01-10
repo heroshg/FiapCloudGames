@@ -4,11 +4,11 @@ using NetDevPack.SimpleMediator;
 
 namespace FiapCloudGames.Application.Queries.ListUsers
 {
-    public class ListUsersQueryHandler : IRequestHandler<ListUsersQuery, ResultViewModel<List<UserAdminViewModel>>>
+    public class ListUsersHandler : IRequestHandler<ListUsersQuery, ResultViewModel<List<UserAdminViewModel>>>
     {
         private readonly IUserRepository _repository;
 
-        public ListUsersQueryHandler(IUserRepository repository)
+        public ListUsersHandler(IUserRepository repository)
         {
             _repository = repository;
         }

@@ -1,8 +1,6 @@
 ﻿using FiapCloudGames.Domain.Identity.Entities;
-using FiapCloudGames.Domain.Identity.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FiapCloudGames.Infrastructure.Persistence.Configurations
 {
@@ -29,16 +27,13 @@ namespace FiapCloudGames.Infrastructure.Persistence.Configurations
                         .HasMaxLength(256);
             });
 
-            var roleConverter = new ValueConverter<Role, string>(
-                role => role.Value,
-                value => Role.Parse(value)
-            );
-
-            builder.Property(u => u.Role)
-                   .HasConversion(roleConverter)
-                   .HasColumnName("Role")
-                   .HasMaxLength(20)
-                   .IsRequired();
+            builder.OwnsOne(u => u.Role, role =>
+            {
+                role.Property(r => r.Value)
+                    .HasColumnName("Role")
+                    .HasMaxLength(20)
+                    .IsRequired();
+            });
 
             builder.Property(u => u.Name)
                    .IsRequired()

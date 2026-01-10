@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace FiapCloudGames.Application.Queries.GetUserById
 {
-    public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, ResultViewModel<UserAdminViewModel>>
+    public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, ResultViewModel<UserAdminViewModel>>
     {
         private readonly IUserRepository _repository;
 
-        public GetUserByIdQueryHandler(IUserRepository repository)
+        public GetUserByIdHandler(IUserRepository repository)
         {
             _repository = repository;
         }

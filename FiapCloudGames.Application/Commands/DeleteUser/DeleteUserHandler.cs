@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace FiapCloudGames.Application.Commands.DeleteUser
 {
-    public class DeleteUserCommandHandler
+    public class DeleteUserHandler
         : IRequestHandler<DeleteUserCommand, ResultViewModel<UserAdminViewModel>>
     {
         private readonly IUserRepository _repository;
 
-        public DeleteUserCommandHandler(IUserRepository repository)
+        public DeleteUserHandler(IUserRepository repository)
         {
             _repository = repository;
         }

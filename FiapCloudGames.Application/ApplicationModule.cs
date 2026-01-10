@@ -19,7 +19,7 @@ namespace FiapCloudGames.Application
 
             services.AddScoped<
                 IRequestHandler<RegisterUserCommand, ResultViewModel<Guid>>,
-                RegisterUserCommandHandler>();
+                RegisterUserHandler>();
             return services;
         }
     }

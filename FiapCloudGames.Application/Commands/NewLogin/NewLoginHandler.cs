@@ -6,13 +6,13 @@ using NetDevPack.SimpleMediator;
 
 namespace FiapCloudGames.Application.Commands.NewLogin
 {
-    public class NewLoginCommandHandler : IRequestHandler<NewLoginCommand, ResultViewModel>
+    public class NewLoginHandler : IRequestHandler<NewLoginCommand, ResultViewModel>
     {
         private readonly IAuthService _service;
         private readonly IUserRepository _repository;
         private readonly IPasswordHasher _passwordHasher;
 
-        public NewLoginCommandHandler(IAuthService service, IUserRepository repository, IPasswordHasher passwordHasher)
+        public NewLoginHandler(IAuthService service, IUserRepository repository, IPasswordHasher passwordHasher)
         {
             _service = service;
             _repository = repository;

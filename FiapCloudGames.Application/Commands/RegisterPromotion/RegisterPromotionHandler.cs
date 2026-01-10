@@ -4,12 +4,12 @@ using NetDevPack.SimpleMediator;
 
 namespace FiapCloudGames.Application.Commands.RegisterPromotion
 {
-    public class RegisterPromotionCommandHandler : IRequestHandler<RegisterPromotionCommand, ResultViewModel<Guid>>
+    public class RegisterPromotionHandler : IRequestHandler<RegisterPromotionCommand, ResultViewModel<Guid>>
     {
         private readonly IGameRepository _gameRepository;
         private readonly IPromotionRepository _promotionRepository;
 
-        public RegisterPromotionCommandHandler(IGameRepository gameRepository, IPromotionRepository promotionRepository)
+        public RegisterPromotionHandler(IGameRepository gameRepository, IPromotionRepository promotionRepository)
         {
             _gameRepository = gameRepository;
             _promotionRepository = promotionRepository;

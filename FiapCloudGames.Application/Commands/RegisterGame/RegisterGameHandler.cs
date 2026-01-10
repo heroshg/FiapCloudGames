@@ -4,11 +4,11 @@ using NetDevPack.SimpleMediator;
 
 namespace FiapCloudGames.Application.Commands.RegisterGame
 {
-    public class RegisterGameCommandHandler : IRequestHandler<RegisterGameCommand, ResultViewModel<Guid>>
+    public class RegisterGameHandler : IRequestHandler<RegisterGameCommand, ResultViewModel<Guid>>
     {
         private readonly IGameRepository _repository;
 
-        public RegisterGameCommandHandler(IGameRepository repository)
+        public RegisterGameHandler(IGameRepository repository)
         {
             _repository = repository;
         }

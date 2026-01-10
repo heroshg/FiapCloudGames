@@ -12,7 +12,7 @@ namespace FiapCloudGames.Domain.Identity.Entities
             var validatedName = ValidateAndNormalizeName(name);
 
             EnsureEmailIsUnique(emailAlreadyExists);
-            
+
             return new User
             {
                 Name = validatedName,
@@ -34,10 +34,18 @@ namespace FiapCloudGames.Domain.Identity.Entities
         public Role Role { get; private set; }
         public string Name { get; private set; }
 
-        public void ChangeRole(Role role)
+        public void ChangeRole(string role)
         {
-            
-            Role = role ?? throw new DomainException("Role is required.");
+            if (string.IsNullOrWhiteSpace(role))
+                throw new DomainException("Role cannot be null or empty.");
+
+            if(string.Equals(role, Role.User.Value, StringComparison.OrdinalIgnoreCase))
+                Role = Role.User;
+            else if(string.Equals(role, Role.Admin.Value, StringComparison.OrdinalIgnoreCase))
+                Role = Role.Admin;
+            else
+                throw new DomainException("Invalid role.");
+
             UpdatedAt = DateTime.UtcNow;
         }
 

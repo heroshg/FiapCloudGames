@@ -65,11 +65,7 @@ namespace FiapCloudGames.Infrastructure.Persistence.Repositories
 
         public async Task UpdateAsync(User user, CancellationToken cancellationToken)
         {
-            // Como você costuma ler com AsNoTracking(), o EF não está rastreando.
-            // Então anexamos e marcamos como Modified.
-            _context.Users.Attach(user);
-            _context.Entry(user).State = EntityState.Modified;
-
+            _context.Users.Update(user);
             await _context.SaveChangesAsync(cancellationToken);
         }
 
