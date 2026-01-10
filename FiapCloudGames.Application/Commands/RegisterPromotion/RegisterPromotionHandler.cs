@@ -20,7 +20,7 @@ namespace FiapCloudGames.Application.Commands.RegisterPromotion
 
             var games = await _gameRepository.GetByIdsAsync(request.GameIds, cancellationToken);
 
-            var promotion = new Promotion().Create(request.Name,
+            var promotion = new Promotion(request.Name,
                 request.Discount,
                 request.StartsAt,
                 request.EndsAt,

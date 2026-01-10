@@ -1,4 +1,5 @@
-﻿using FiapCloudGames.Domain.Identity.Entities;
+﻿using FiapCloudGames.Domain.Games;
+using FiapCloudGames.Domain.Identity.Entities;
 
 namespace FiapCloudGames.Domain.Identity.Repositories
 {
@@ -11,5 +12,6 @@ namespace FiapCloudGames.Domain.Identity.Repositories
         Task<User?> GetUser(string email);
         Task<List<User>> ListAsync(string? search, bool includeInactive, CancellationToken cancellationToken);
         Task UpdateAsync(User user, CancellationToken cancellationToken);
+        Task<IEnumerable<Guid>> GetGamesAsync(Guid userId, CancellationToken cancellationToken);
     }
 }
