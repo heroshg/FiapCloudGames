@@ -4,7 +4,7 @@ using NetDevPack.SimpleMediator;
 
 namespace FiapCloudGames.Application.Queries.ListUsers
 {
-    public class ListUsersHandler : IRequestHandler<ListUsersQuery, ResultViewModel<List<UserAdminViewModel>>>
+    public class ListUsersHandler : IRequestHandler<ListUsersQuery, ResultViewModel<PagedResultViewModel<UserAdminViewModel>>>
     {
         private readonly IUserRepository _repository;
 
@@ -13,17 +13,35 @@ namespace FiapCloudGames.Application.Queries.ListUsers
             _repository = repository;
         }
 
-        public async Task<ResultViewModel<List<UserAdminViewModel>>> Handle(ListUsersQuery request, CancellationToken cancellationToken)
+        public async Task<ResultViewModel<PagedResultViewModel<UserAdminViewModel>>> Handle(
+            ListUsersQuery request,
+            CancellationToken cancellationToken)
         {
-            var users = await _repository.ListAsync(
-                request.Search,
+            var page = request.Page <= 0 ? 1 : request.Page;
+
+            var pageSize = request.PageSize <= 0 ? 5 : request.PageSize;
+
+            pageSize = Math.Min(pageSize, 100);
+
+            var skip = (page - 1) * pageSize;
+
+            var (items, totalCount) = await _repository.ListPagedAsync(
                 request.IncludeInactive,
+                skip,
+                pageSize,
                 cancellationToken
             );
 
-            var result = users.Select(UserAdminViewModel.FromEntity).ToList();
+            var users = items.Select(UserAdminViewModel.FromEntity).ToList();
 
-            return ResultViewModel<List<UserAdminViewModel>>.Success(result);
+            var paged = new PagedResultViewModel<UserAdminViewModel>(
+                users,
+                page,
+                pageSize,
+                totalCount
+            );
+
+            return ResultViewModel<PagedResultViewModel<UserAdminViewModel>>.Success(paged);
         }
     }
 }

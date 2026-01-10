@@ -50,26 +50,26 @@ namespace FiapCloudGames.Infrastructure.Persistence.Repositories
             return await _context.Users.AnyAsync(u => u.Email.Address == email);
         }
 
-        public async Task<List<User>> ListAsync(string? search, bool includeInactive, CancellationToken cancellationToken)
+        public async Task<(List<User> Items, int TotalCount)> ListPagedAsync(
+            bool includeInactive,
+            int skip,
+            int take,
+            CancellationToken cancellationToken)
         {
-            IQueryable<User> query = _context.Users.AsNoTracking();
+            IQueryable<User> query = _context.Users;
 
             if (!includeInactive)
                 query = query.Where(u => u.IsActive);
 
-            if (!string.IsNullOrWhiteSpace(search))
-            {
-                var s = search.Trim().ToLower();
+            var totalCount = await query.CountAsync(cancellationToken);
 
-                query = query.Where(u =>
-                    u.Name.Contains(s, StringComparison.CurrentCultureIgnoreCase) ||
-                    u.Email.Address.Contains(s, StringComparison.CurrentCultureIgnoreCase)
-                );
-            }
-
-            return await query
-                .OrderBy(u => u.Name)
+            var items = await query
+                .OrderBy(u => u.CreatedAt) // ou u.Name / u.Email
+                .Skip(skip)
+                .Take(take)
                 .ToListAsync(cancellationToken);
+
+            return (items, totalCount);
         }
 
         public async Task UpdateAsync(User user, CancellationToken cancellationToken)
