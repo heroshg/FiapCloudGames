@@ -1,6 +1,7 @@
 ﻿using FiapCloudGames.Domain.Games;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Reflection.Emit;
 
 namespace FiapCloudGames.Infrastructure.Persistence.Configurations
 {
@@ -32,6 +33,7 @@ namespace FiapCloudGames.Infrastructure.Persistence.Configurations
             builder
             .HasMany(p => p.Games)
             .WithMany(g => g.Promotions);
+
         }
     }
 }

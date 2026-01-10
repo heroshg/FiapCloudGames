@@ -10,6 +10,7 @@ namespace FiapCloudGames.Infrastructure.Persistence.Configurations
         {
             builder
                 .HasKey(g => g.Id);
+                
 
             builder
                 .Property(g => g.Name)
@@ -25,6 +26,10 @@ namespace FiapCloudGames.Infrastructure.Persistence.Configurations
                 .Property(g => g.Price)
                 .IsRequired()
                 .HasPrecision(10, 2);
+
+            builder.HasIndex(g => g.Id);
+            builder.HasIndex(g => g.Name);
+            builder.HasIndex(g => g.IsActive);
         }
     }
 }

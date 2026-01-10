@@ -62,12 +62,11 @@ namespace FiapCloudGames.Infrastructure.Persistence.Repositories
                 var s = search.Trim().ToLower();
 
                 query = query.Where(u =>
-                    u.Name.ToLower().Contains(s) ||
-                    u.Email.Address.ToLower().Contains(s)
+                    u.Name.Contains(s, StringComparison.CurrentCultureIgnoreCase) ||
+                    u.Email.Address.Contains(s, StringComparison.CurrentCultureIgnoreCase)
                 );
             }
 
-            // Ordenação consistente (você pode trocar por CreatedAt, UpdatedAt etc.)
             return await query
                 .OrderBy(u => u.Name)
                 .ToListAsync(cancellationToken);

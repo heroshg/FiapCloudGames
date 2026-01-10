@@ -1,4 +1,5 @@
 ﻿using FiapCloudGames.Application.Commands.RegisterGame;
+using FiapCloudGames.Application.Queries.GetAllGames;
 using FiapCloudGames.Infrastructure.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +30,19 @@ namespace FiapCloudGames.API.Controllers
             if(!result.IsSuccess)
             {
                 _logger.LogError($"Error registering game: {result.Message}");
+                return BadRequest(result.Message);
+            }
+
+            return Ok(result.Data);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll([FromQuery] string name = "", [FromQuery] int page = 0, [FromQuery] int pageSize = 10, CancellationToken cancellationToken = default!)
+        {
+            var result = await _mediator.Send(new GetAllGamesQuery(name, page, pageSize), cancellationToken);
+            if(!result.IsSuccess)
+            {
+                _logger.LogError($"Error getting games: {result.Message}");
                 return BadRequest(result.Message);
             }
 

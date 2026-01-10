@@ -1,0 +1,16 @@
+﻿namespace FiapCloudGames.Application.Models
+{
+    public record GameViewModel(Guid Id, string Name, string Description, decimal Price, List<PromotionViewModel> Promotions)
+    {
+        public static GameViewModel FromEntity(Domain.Games.Game game) =>
+            new(
+                game.Id,
+                game.Name,
+                game.Description,
+                game.Price,
+                game.Promotions
+                    .Select(p => new PromotionViewModel(p.Id, p.Name, p.Discount))
+                    .ToList()
+            );
+    }
+}
