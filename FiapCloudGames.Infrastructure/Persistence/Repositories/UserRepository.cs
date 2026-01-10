@@ -49,5 +49,11 @@ namespace FiapCloudGames.Infrastructure.Persistence.Repositories
         {
             return await _context.Users.AnyAsync(u => u.Email.Address == email);
         }
+
+        public async Task UpdateAsync(User user, CancellationToken cancellationToken)
+        {
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync(cancellationToken);
+        }
     }
 }

@@ -29,7 +29,7 @@ public class UserTests
         // Assert
         Assert.Equal(email, user.Email);
         Assert.Equal(password, user.Password);
-        Assert.Equal(Role.User, user.Role);
+        Assert.Equal("User", user.Role.Value);
         Assert.Equal("Test User", user.Name);
     }
 
@@ -44,7 +44,7 @@ public class UserTests
         user.TurnAdmin();
 
         // Assert
-        Assert.Equal(Role.Admin, user.Role);
+        Assert.Equal("Admin", user.Role.Value);
         Assert.True(user.UpdatedAt >= before);
     }
 

@@ -32,7 +32,7 @@ namespace FiapCloudGames.Domain.Identity.Entities
                 Name = name,
                 Email = email ?? throw new DomainException("Email is required."),
                 Password = password ?? throw new DomainException("Password is required."),
-                Role = Role.User,
+                Role = new Role("User"),
                 Balance = 0m
             };
             
@@ -53,7 +53,21 @@ namespace FiapCloudGames.Domain.Identity.Entities
 
         public void TurnAdmin()
         {
-            Role = Role.Admin;
+            Role = new Role("Admin");
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void ChangeRole(string role)
+        {
+            if (string.Equals(role, "user", StringComparison.OrdinalIgnoreCase))
+            {
+                Role = new Role("User");
+            } 
+            if (string.Equals(role, "admin", StringComparison.OrdinalIgnoreCase))
+            {
+                Role = new Role("Admin");
+            }
+
             UpdatedAt = DateTime.UtcNow;
         }
 

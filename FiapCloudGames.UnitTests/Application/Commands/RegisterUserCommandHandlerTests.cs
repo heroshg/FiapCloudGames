@@ -53,7 +53,7 @@ public class RegisterUserCommandHandlerTests
             It.Is<User>(u =>
                 u.Email.Address == "user@example.com" &&
                 u.Name == "Test User" &&
-                u.Role == Role.User &&
+                u.Role.Value == "User" &&
                 u.Password.Value == "argon2id.4.65536.2.salt.hash"),
             It.IsAny<CancellationToken>()),
             Times.Once);
