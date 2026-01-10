@@ -30,34 +30,13 @@ namespace FiapCloudGames.Domain.Identity.Entities
             
         }
 
-        public void Debit(decimal amount)
-        {
-            if (amount <= 0)
-                throw new DomainException("Amount must be greater than zero.");
-            if (Balance < amount)
-                throw new DomainException("Insufficient balance.");
-            Balance -= amount;
-            UpdatedAt = DateTime.UtcNow;
-        }
+        
 
-        public bool CanAfford(decimal amount)
-            => Balance >= amount;
-
-        public void ChangeRole(string role)
-        {
-            if (string.IsNullOrWhiteSpace(role))
-                throw new DomainException("Role cannot be null or empty.");
-
-            if(string.Equals(role, Role.User.Value, StringComparison.OrdinalIgnoreCase))
-                Role = Role.User;
-            else if(string.Equals(role, Role.Admin.Value, StringComparison.OrdinalIgnoreCase))
-                Role = Role.Admin;
-            else
-                throw new DomainException("Invalid role.");
-
-            UpdatedAt = DateTime.UtcNow;
-        }
-
+        public Email Email { get; private set; }
+        public Password Password { get; private set; }
+        public Role Role { get; private set; }
+        public string Name { get; private set; }
+        public decimal Balance { get; private set; }
         public void ChangeName(string name)
         {
             Name = ValidateAndNormalizeName(name);
@@ -88,6 +67,34 @@ namespace FiapCloudGames.Domain.Identity.Entities
                 throw new DomainException("Name is too long.");
 
             return normalized;
+        }
+
+        public void Debit(decimal amount)
+        {
+            if (amount <= 0)
+                throw new DomainException("Amount must be greater than zero.");
+            if (Balance < amount)
+                throw new DomainException("Insufficient balance.");
+            Balance -= amount;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public bool CanAfford(decimal amount)
+            => Balance >= amount;
+
+        public void ChangeRole(string role)
+        {
+            if (string.IsNullOrWhiteSpace(role))
+                throw new DomainException("Role cannot be null or empty.");
+
+            if (string.Equals(role, Role.User.Value, StringComparison.OrdinalIgnoreCase))
+                Role = Role.User;
+            else if (string.Equals(role, Role.Admin.Value, StringComparison.OrdinalIgnoreCase))
+                Role = Role.Admin;
+            else
+                throw new DomainException("Invalid role.");
+
+            UpdatedAt = DateTime.UtcNow;
         }
     }
 }
