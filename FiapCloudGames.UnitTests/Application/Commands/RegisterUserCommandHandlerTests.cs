@@ -29,7 +29,7 @@ public class RegisterUserCommandHandlerTests
         hasher.Setup(h => h.HashPassword(It.IsAny<string>()))
             .Returns("argon2id.4.65536.2.salt.hash");
 
-        var sut = new RegisterUserCommandHandler(users.Object, hasher.Object);
+        var sut = new RegisterUserHandler(users.Object, hasher.Object);
 
         var validPassword = PasswordFakers.GenerateValidPassword();
 
@@ -53,7 +53,7 @@ public class RegisterUserCommandHandlerTests
             It.Is<User>(u =>
                 u.Email.Address == "user@example.com" &&
                 u.Name == "Test User" &&
-                u.Role == Role.User &&
+                u.Role.Value == Role.User.Value &&
                 u.Password.Value == "argon2id.4.65536.2.salt.hash"),
             It.IsAny<CancellationToken>()),
             Times.Once);
@@ -66,7 +66,7 @@ public class RegisterUserCommandHandlerTests
         var users = new Mock<IUserRepository>();
         var hasher = new Mock<IPasswordHasher>();
 
-        var sut = new RegisterUserCommandHandler(users.Object, hasher.Object);
+        var sut = new RegisterUserHandler(users.Object, hasher.Object);
 
         var validPassword = PasswordFakers.GenerateValidPassword();
 
@@ -94,7 +94,7 @@ public class RegisterUserCommandHandlerTests
         var users = new Mock<IUserRepository>();
         var hasher = new Mock<IPasswordHasher>();
 
-        var sut = new RegisterUserCommandHandler(users.Object, hasher.Object);
+        var sut = new RegisterUserHandler(users.Object, hasher.Object);
 
         var invalidPassword = PasswordFakers.GenerateTooShortPassword();
 
@@ -126,7 +126,7 @@ public class RegisterUserCommandHandlerTests
         hasher.Setup(h => h.HashPassword(It.IsAny<string>()))
               .Returns("fake-hash"); 
 
-        var sut = new RegisterUserCommandHandler(
+        var sut = new RegisterUserHandler(
             users.Object,
             hasher.Object
         );

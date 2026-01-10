@@ -7,12 +7,12 @@ using NetDevPack.SimpleMediator;
 
 namespace FiapCloudGames.Application.Commands.RegisterUser
 {
-    public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, ResultViewModel<Guid>>
+    public class RegisterUserHandler : IRequestHandler<RegisterUserCommand, ResultViewModel<Guid>>
     { 
         private readonly IUserRepository _repository;
         private readonly IPasswordHasher _passwordHasher;
 
-        public RegisterUserCommandHandler(IUserRepository repository, IPasswordHasher passwordHasher)
+        public RegisterUserHandler(IUserRepository repository, IPasswordHasher passwordHasher)
         {
             _repository = repository;
             _passwordHasher = passwordHasher;

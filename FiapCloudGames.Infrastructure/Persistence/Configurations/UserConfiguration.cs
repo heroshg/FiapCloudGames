@@ -31,12 +31,15 @@ namespace FiapCloudGames.Infrastructure.Persistence.Configurations
                         .IsRequired()
                         .HasMaxLength(256);
             });
+
             builder.OwnsOne(u => u.Role, role =>
             {
                 role.Property(r => r.Value)
                     .HasColumnName("Role")
+                    .HasMaxLength(20)
                     .IsRequired();
             });
+
             builder.Property(u => u.Name)
                    .IsRequired()
                    .HasMaxLength(150);

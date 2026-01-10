@@ -17,7 +17,17 @@
 
         public void Deactivate()
         {
+            if (!IsActive) return;
+
             IsActive = false;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void Activate()
+        {
+            if (IsActive) return;
+
+            IsActive = true;
             UpdatedAt = DateTime.UtcNow;
         }
     }

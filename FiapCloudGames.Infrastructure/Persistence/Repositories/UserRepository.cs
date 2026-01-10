@@ -49,5 +49,35 @@ namespace FiapCloudGames.Infrastructure.Persistence.Repositories
         {
             return await _context.Users.AnyAsync(u => u.Email.Address == email);
         }
+
+        public async Task<List<User>> ListAsync(string? search, bool includeInactive, CancellationToken cancellationToken)
+        {
+            IQueryable<User> query = _context.Users.AsNoTracking();
+
+            if (!includeInactive)
+                query = query.Where(u => u.IsActive);
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                var s = search.Trim().ToLower();
+
+                query = query.Where(u =>
+                    u.Name.ToLower().Contains(s) ||
+                    u.Email.Address.ToLower().Contains(s)
+                );
+            }
+
+            // Ordenação consistente (você pode trocar por CreatedAt, UpdatedAt etc.)
+            return await query
+                .OrderBy(u => u.Name)
+                .ToListAsync(cancellationToken);
+        }
+
+        public async Task UpdateAsync(User user, CancellationToken cancellationToken)
+        {
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+
     }
 }

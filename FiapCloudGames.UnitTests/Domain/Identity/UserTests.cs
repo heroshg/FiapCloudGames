@@ -29,22 +29,22 @@ public class UserTests
         // Assert
         Assert.Equal(email, user.Email);
         Assert.Equal(password, user.Password);
-        Assert.Equal(Role.User, user.Role);
+        Assert.Equal(Role.User.Value, user.Role.Value);
         Assert.Equal("Test User", user.Name);
     }
 
     [Fact]
-    public void UserRoleUser_TurnAdmin_ShouldSetRoleAdminAndUpdateUpdatedAt()
+    public void UserRoleUser_ChangeRoleToAdmin_ShouldSetRoleAdminAndUpdateUpdatedAt()
     {
         // Arrange
         var user = User.Create("Test User", new Email("user@example.com"), Password.FromHash("hash"), false);
         var before = user.UpdatedAt;
 
         // Act
-        user.TurnAdmin();
+        user.ChangeRole("Admin");
 
         // Assert
-        Assert.Equal(Role.Admin, user.Role);
+        Assert.Equal(Role.Admin.Value, user.Role.Value);
         Assert.True(user.UpdatedAt >= before);
     }
 

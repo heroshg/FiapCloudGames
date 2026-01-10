@@ -33,7 +33,12 @@ namespace FiapCloudGames.Application.Commands.NewLogin
                 return ResultViewModel.Error("Invalid email or password");
             }
 
-            var token = _service.GenerateToken(request.Email, user.Role.Value);
+            if (!user.IsActive) {                
+                return ResultViewModel.Error("User is inactive");
+            }
+
+            var userRole = user.Role.Value;
+            var token = _service.GenerateToken(request.Email, userRole);
 
             var loginViewModel = new LoginViewModel(token);
 
