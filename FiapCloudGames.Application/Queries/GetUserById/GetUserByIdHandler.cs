@@ -1,11 +1,6 @@
 ﻿using FiapCloudGames.Application.Models;
 using FiapCloudGames.Domain.Identity.Repositories;
 using NetDevPack.SimpleMediator;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FiapCloudGames.Application.Queries.GetUserById
 {

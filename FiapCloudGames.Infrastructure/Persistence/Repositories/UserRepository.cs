@@ -1,6 +1,7 @@
 ﻿using FiapCloudGames.Domain.Games;
 using FiapCloudGames.Domain.Identity.Entities;
 using FiapCloudGames.Domain.Identity.Repositories;
+using FiapCloudGames.Domain.Identity.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace FiapCloudGames.Infrastructure.Persistence.Repositories
@@ -31,6 +32,20 @@ namespace FiapCloudGames.Infrastructure.Persistence.Repositories
             return await _context.Users.AsNoTracking().SingleOrDefaultAsync(u => u.Id == userId, cancellationToken);
         }
 
+        public async Task<User?> GetByEmailAsync(Email email, CancellationToken cancellationToken)
+        {
+            return await _context.Users.AsNoTracking().SingleOrDefaultAsync(u => u.Email.Address == email.Address, cancellationToken);
+        }
+        public async Task<List<User>> GetByNameAsync(string name, CancellationToken cancellationToken)
+        {
+            var normalizedName = name.Trim().ToLower();
+
+            return await _context.Users
+                .AsNoTracking()
+                .Where(u => u.Name.ToLower().Contains(normalizedName))
+                .OrderBy(u => u.Name)
+                .ToListAsync(cancellationToken);
+        }
         public async Task<IEnumerable<Guid>> GetGamesAsync(Guid userId, CancellationToken cancellationToken)
         {
             return await _context.GameLicenses
@@ -38,11 +53,6 @@ namespace FiapCloudGames.Infrastructure.Persistence.Repositories
                 .Where(gl => gl.UserId == userId)
                 .Select(gl => gl.GameId)
                 .ToListAsync(cancellationToken);
-        }
-
-        public Task<User?> GetUser(string email)
-        {
-            return _context.Users.AsNoTracking().SingleOrDefaultAsync(u => u.Email.Address == email);
         }
 
         public async Task<bool> IsEmailRegisteredAsync(string email)
@@ -64,7 +74,7 @@ namespace FiapCloudGames.Infrastructure.Persistence.Repositories
             var totalCount = await query.CountAsync(cancellationToken);
 
             var items = await query
-                .OrderBy(u => u.CreatedAt) // ou u.Name / u.Email
+                .OrderBy(u => u.CreatedAt)
                 .Skip(skip)
                 .Take(take)
                 .ToListAsync(cancellationToken);

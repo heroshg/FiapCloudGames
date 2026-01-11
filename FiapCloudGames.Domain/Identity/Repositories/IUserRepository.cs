@@ -1,5 +1,6 @@
 ﻿using FiapCloudGames.Domain.Games;
 using FiapCloudGames.Domain.Identity.Entities;
+using FiapCloudGames.Domain.Identity.ValueObjects;
 
 namespace FiapCloudGames.Domain.Identity.Repositories
 {
@@ -8,8 +9,9 @@ namespace FiapCloudGames.Domain.Identity.Repositories
         Task<bool> IsEmailRegisteredAsync(string email);
         Task<Guid> AddAsync(User user, CancellationToken cancellationToken);
         Task<User?> GetByIdAsync(Guid userId, CancellationToken cancellationToken);
+        Task<User?> GetByEmailAsync(Email email, CancellationToken cancellationToken);
+        Task<List<User>> GetByNameAsync(string name, CancellationToken cancellationToken);
         Task<bool> ExistsById(Guid id, CancellationToken cancellationToken);
-        Task<User?> GetUser(string email);
         Task<(List<User> Items, int TotalCount)> ListPagedAsync(
             bool includeInactive,
             int skip,
