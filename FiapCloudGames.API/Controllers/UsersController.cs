@@ -3,7 +3,9 @@ using FiapCloudGames.Application.Commands.DeleteUser;
 using FiapCloudGames.Application.Commands.NewLogin;
 using FiapCloudGames.Application.Commands.RegisterUser;
 using FiapCloudGames.Application.Commands.UpdateUser;
+using FiapCloudGames.Application.Queries.GetUserByEmail;
 using FiapCloudGames.Application.Queries.GetUserById;
+using FiapCloudGames.Application.Queries.GetUserByName;
 using FiapCloudGames.Application.Queries.ListUsers;
 using FiapCloudGames.Infrastructure.Logging;
 using Microsoft.AspNetCore.Authorization;
@@ -70,6 +72,38 @@ namespace FiapCloudGames.API.Controllers
                 return BadRequest(result.Message);
             }
 
+            return Ok(result.Data);
+        }
+
+        [HttpGet("email")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetUserByEmail([FromQuery] string email, CancellationToken ct)
+        {
+            var result = await _mediator.Send(new GetUserByEmailQuery(email), ct);
+
+            if (!result.IsSuccess)
+            {
+                _logger.LogWarning(
+                    $"User not found. Email: {email}"
+                );
+                return NotFound(result.Message);
+            }
+            return Ok(result.Data);
+        }
+
+        [HttpGet("name")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetUserByName([FromQuery] string name, CancellationToken ct)
+        {
+            var result = await _mediator.Send(new GetUserByNameQuery(name), ct);
+
+            if (!result.IsSuccess)
+            {
+                _logger.LogWarning(
+                    $"No users found. Name: {name}"
+                );
+                return NotFound(result.Message);
+            }
             return Ok(result.Data);
         }
 

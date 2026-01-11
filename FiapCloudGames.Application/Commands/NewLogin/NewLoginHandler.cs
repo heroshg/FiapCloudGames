@@ -1,6 +1,7 @@
 ﻿using FiapCloudGames.Application.Models;
 using FiapCloudGames.Domain.Identity;
 using FiapCloudGames.Domain.Identity.Repositories;
+using FiapCloudGames.Domain.Identity.ValueObjects;
 using FiapCloudGames.Infrastructure.Auth;
 using NetDevPack.SimpleMediator;
 
@@ -22,7 +23,10 @@ namespace FiapCloudGames.Application.Commands.NewLogin
         public async Task<ResultViewModel> Handle(NewLoginCommand request, CancellationToken cancellationToken)
         {
 
-            var user = await _repository.GetUser(request.Email);
+            var email = new Email(request.Email);
+
+            var user = await _repository.GetByEmailAsync(email, cancellationToken);
+
             if(user is null)
             {
                 return ResultViewModel.Error("Invalid email or password");
