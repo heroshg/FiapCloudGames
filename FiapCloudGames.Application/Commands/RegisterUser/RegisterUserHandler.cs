@@ -1,4 +1,5 @@
 ﻿using FiapCloudGames.Application.Models;
+using FiapCloudGames.Domain.Common;
 using FiapCloudGames.Domain.Identity;
 using FiapCloudGames.Domain.Identity.Entities;
 using FiapCloudGames.Domain.Identity.Repositories;
@@ -11,11 +12,13 @@ namespace FiapCloudGames.Application.Commands.RegisterUser
     { 
         private readonly IUserRepository _repository;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly IUserSpecification _specification;
 
-        public RegisterUserHandler(IUserRepository repository, IPasswordHasher passwordHasher)
+        public RegisterUserHandler(IUserRepository repository, IPasswordHasher passwordHasher, IUserSpecification specification)
         {
             _repository = repository;
             _passwordHasher = passwordHasher;
+            _specification = specification;
         }
 
         public async Task<ResultViewModel<Guid>> Handle(
@@ -27,11 +30,15 @@ namespace FiapCloudGames.Application.Commands.RegisterUser
 
             var passwordHash = _passwordHasher.HashPassword(plainPassword.Value);
 
+            if(!await _specification.IsSatisfiedByAsync(email, cancellationToken))
+            {
+                throw new DomainException("Email already in use."); 
+            }
+
             var user = User.Create(
                 request.Name,
                 email,
-                Password.FromHash(passwordHash),
-                await _repository.IsEmailRegisteredAsync(request.Email)
+                Password.FromHash(passwordHash)
             );
 
             var id = await _repository.AddAsync(user, cancellationToken);

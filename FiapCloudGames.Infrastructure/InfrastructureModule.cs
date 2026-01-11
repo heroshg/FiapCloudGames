@@ -50,6 +50,7 @@ namespace FiapCloudGames.Infrastructure
         private static IServiceCollection AddDomainServices(this IServiceCollection services)
         {
             services.AddScoped<IGamePurchaseService, GamePurchaseService>();
+            services.AddScoped<IUserSpecification, UserSpecification>();
             return services;
         }
         

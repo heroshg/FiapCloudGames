@@ -58,8 +58,7 @@ namespace FiapCloudGames.Tests.Integration
             var user = User.Create(
                 "Usuario de teste de integração.",
                 email,
-                Password.FromHash(passwordHash),
-                false
+                Password.FromHash(passwordHash)
             );
 
             var expectedUserId = user.Id;

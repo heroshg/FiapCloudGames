@@ -1,4 +1,6 @@
 ﻿using FiapCloudGames.Application.Models;
+using FiapCloudGames.Domain.Common;
+using FiapCloudGames.Domain.Identity;
 using FiapCloudGames.Domain.Identity.Repositories;
 using FiapCloudGames.Domain.Identity.ValueObjects;
 using NetDevPack.SimpleMediator;
@@ -8,10 +10,12 @@ namespace FiapCloudGames.Application.Commands.UpdateUser
     public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, ResultViewModel<UserAdminViewModel>>
     {
         private readonly IUserRepository _repository;
+        private readonly IUserSpecification _specification;
 
-        public UpdateUserHandler(IUserRepository repository)
+        public UpdateUserHandler(IUserRepository repository, IUserSpecification specification)
         {
             _repository = repository;
+            _specification = specification;
         }
 
         public async Task<ResultViewModel<UserAdminViewModel>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
@@ -30,7 +34,13 @@ namespace FiapCloudGames.Application.Commands.UpdateUser
 
             if (request.Email is not null)
             {
+                
+
                 var newEmail = new Email(request.Email);
+                if (!await _specification.IsSatisfiedByAsync(newEmail, cancellationToken))
+                {
+                    throw new DomainException("Email is already in use.");
+                }
 
                 if (!string.Equals(user.Email.Address, newEmail.Address, StringComparison.OrdinalIgnoreCase))
                 {

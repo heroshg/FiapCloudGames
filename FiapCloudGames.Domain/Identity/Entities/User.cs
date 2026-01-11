@@ -13,11 +13,9 @@ namespace FiapCloudGames.Domain.Identity.Entities
 
         }
 
-        public static User Create(string name, Email email, Password password, bool emailAlreadyExists)
+        public static User Create(string name, Email email, Password password)
         {
             var validatedName = ValidateAndNormalizeName(name);
-
-            EnsureEmailIsUnique(emailAlreadyExists);
 
             return new User
             {
@@ -45,16 +43,10 @@ namespace FiapCloudGames.Domain.Identity.Entities
         
         public void ChangeEmail(Email newEmail, bool emailAlreadyExists)
         {
-            EnsureEmailIsUnique(emailAlreadyExists);
             Email = newEmail ?? throw new DomainException("Email is required.");
             UpdatedAt = DateTime.UtcNow;
         }
 
-        private static void EnsureEmailIsUnique(bool emailAlreadyExists)
-        {
-            if (emailAlreadyExists)
-                throw new DomainException("Email already in use.");
-        }
 
         private static string ValidateAndNormalizeName(string name)
         {
