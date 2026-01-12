@@ -10,7 +10,7 @@ namespace FiapCloudGames.Application.Commands.NewLogin
         string Email,
         [Required(ErrorMessage = "Password is required.")]
         [MinLength(8, ErrorMessage = "Password length must be greater or equal to 8")]
-        string Password) : IRequest<ResultViewModel>
+        string Password) : IRequest<ResultViewModel<LoginViewModel>>
     {
     }
 }

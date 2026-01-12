@@ -7,7 +7,7 @@ using NetDevPack.SimpleMediator;
 
 namespace FiapCloudGames.Application.Commands.NewLogin
 {
-    public class NewLoginHandler : IRequestHandler<NewLoginCommand, ResultViewModel>
+    public class NewLoginHandler : IRequestHandler<NewLoginCommand, ResultViewModel<LoginViewModel>>
     {
         private readonly IAuthService _service;
         private readonly IUserRepository _repository;
@@ -20,7 +20,7 @@ namespace FiapCloudGames.Application.Commands.NewLogin
             _passwordHasher = passwordHasher;
         }
 
-        public async Task<ResultViewModel> Handle(NewLoginCommand request, CancellationToken cancellationToken)
+        public async Task<ResultViewModel<LoginViewModel>> Handle(NewLoginCommand request, CancellationToken cancellationToken)
         {
 
             var email = new Email(request.Email);
@@ -29,16 +29,16 @@ namespace FiapCloudGames.Application.Commands.NewLogin
 
             if(user is null)
             {
-                return ResultViewModel.Error("Invalid email or password");
+                return ResultViewModel<LoginViewModel>.Error("Invalid email or password");
             }
 
             if(!_passwordHasher.VerifyPassword(request.Password, user.Password.Value))
             {
-                return ResultViewModel.Error("Invalid email or password");
+                return ResultViewModel<LoginViewModel>.Error("Invalid email or password");
             }
 
             if (!user.IsActive) {                
-                return ResultViewModel.Error("User is inactive");
+                return ResultViewModel<LoginViewModel>.Error("User is inactive");
             }
 
             var token = _service.GenerateToken(request.Email, user.Role.Value);

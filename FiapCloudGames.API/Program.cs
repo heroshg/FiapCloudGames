@@ -1,4 +1,5 @@
-﻿using FiapCloudGames.Application;
+﻿using System.Reflection;
+using FiapCloudGames.Application;
 using FiapCloudGames.Infrastructure;
 using FiapCloudGames.Infrastructure.Logging;
 using Microsoft.OpenApi.Models;
@@ -28,19 +29,24 @@ Log.Logger = loggerConfig.CreateLogger();
 
 builder.Host.UseSerilog();
 
-
 builder.Services.AddApplication();
 builder.Services.AddInfrastructureModule(builder.Configuration);
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
     {
         Title = "FiapCloudGames API",
-        Version = "v1"
+        Version = "v1",
+        Description = "API responsible for managing game licenses, purchases and users"
     });
+
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath);
 
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
@@ -48,7 +54,7 @@ builder.Services.AddSwaggerGen(c =>
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.ApiKey,
         BearerFormat = "JWT",
-        Description = "Please enter your Bearer token in the format **'Bearer {your token here}'**"
+        Description = "Please enter your Bearer token in the format **Bearer {your token here}**"
     });
 
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -69,17 +75,18 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "FiapCloudGames API v1");
+    });
 }
 
 app.UseHttpsRedirection();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
-
 app.UseCorrelationMiddleware();
 
 app.UseAuthentication();

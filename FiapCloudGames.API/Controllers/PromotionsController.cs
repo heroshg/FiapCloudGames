@@ -2,33 +2,61 @@
 using FiapCloudGames.Application.Commands.RegisterPromotion;
 using FiapCloudGames.Infrastructure.Logging;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NetDevPack.SimpleMediator;
 
 namespace FiapCloudGames.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     [Authorize]
     public class PromotionsController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly BaseLogger<GameLicensesController> _logger;
+        private readonly BaseLogger<PromotionsController> _logger;
 
-        public PromotionsController(IMediator mediator, BaseLogger<GameLicensesController> logger)
+        public PromotionsController(
+            IMediator mediator,
+            BaseLogger<PromotionsController> logger)
         {
             _mediator = mediator;
             _logger = logger;
         }
 
+        /// <summary>
+        /// Creates a new promotion
+        /// </summary>
+        /// <remarks>
+        /// Creates a new promotion that can be applied to game purchases.
+        ///
+        /// Business rules:
+        /// - Only users with the <b>Admin</b> role can create promotions
+        /// - Promotion dates must be valid
+        /// - Discount value must be greater than zero
+        /// </remarks>
+        /// <param name="model">Promotion creation data</param>
+        /// <param name="cancellationToken">Request cancellation token</param>
+        /// <response code="200">Promotion created successfully</response>
+        /// <response code="400">Validation or business rule error</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="403">Forbidden – user is not an admin</response>
+        /// <response code="500">Internal server error</response>
         [HttpPost]
-        [Authorize(Roles ="Admin")]
-        public async Task<IActionResult> CreatePromotion(RegisterPromotionCommand model, CancellationToken cancellationToken)
+        [Authorize(Roles = "Admin")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> CreatePromotion(
+            [FromBody] RegisterPromotionCommand model,
+            CancellationToken cancellationToken)
         {
-
             var result = await _mediator.Send(model, cancellationToken);
 
-            if(!result.IsSuccess)
+            if (!result.IsSuccess)
             {
                 _logger.LogError($"CreatePromotion failed: {result.Message}");
                 return BadRequest(result.Message);
@@ -37,17 +65,42 @@ namespace FiapCloudGames.API.Controllers
             return Ok(result.Data);
         }
 
+        /// <summary>
+        /// Purchases a promotion
+        /// </summary>
+        /// <remarks>
+        /// Applies an active promotion to a user's purchase.
+        ///
+        /// Business rules:
+        /// - The user must be authenticated
+        /// - The promotion must be active
+        /// - The user must meet promotion requirements
+        /// </remarks>
+        /// <param name="model">Promotion purchase data</param>
+        /// <param name="cancellationToken">Request cancellation token</param>
+        /// <response code="200">Promotion purchased successfully</response>
+        /// <response code="400">Validation or business rule error</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="500">Internal server error</response>
         [HttpPost("Purchase")]
-        public async Task<IActionResult> PurchasePromotion(PurchasePromotionCommand model, CancellationToken cancellationToken)
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> PurchasePromotion(
+            [FromBody] PurchasePromotionCommand model,
+            CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(model, cancellationToken);
-            if(!result.IsSuccess)
+
+            if (!result.IsSuccess)
             {
                 _logger.LogError($"PurchasePromotion failed: {result.Message}");
                 return BadRequest(result.Message);
             }
-            return Ok(result);
-        }
 
+            return Ok(result.Data);
+        }
     }
 }
