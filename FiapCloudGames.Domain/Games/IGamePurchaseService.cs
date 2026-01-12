@@ -1,7 +1,9 @@
-﻿namespace FiapCloudGames.Domain.Games
+﻿using FiapCloudGames.Domain.Identity.Entities;
+
+namespace FiapCloudGames.Domain.Games
 {
     public interface IGamePurchaseService
     {
-        Task<GameLicense> PurchaseGameAsync(Guid gameId,  Guid userId, DateTime? expirationDate, CancellationToken cancellationToken);
+        Task<GameLicense> PurchaseGameAsync(Game game,  User user, DateTime? expirationDate, CancellationToken cancellationToken);
     }
 }

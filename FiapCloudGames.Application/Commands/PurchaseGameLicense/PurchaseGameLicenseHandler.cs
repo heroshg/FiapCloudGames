@@ -33,7 +33,7 @@ namespace FiapCloudGames.Application.Commands.PurchaseGameLicense
                 return ResultViewModel<Guid>.Error("Game not found.");
             }
 
-            var gameLicense = await _purchaseService.PurchaseGameAsync(request.GameId, request.UserId, request.ExpirationDate, cancellationToken);
+            var gameLicense = await _purchaseService.PurchaseGameAsync(game, user, request.ExpirationDate, cancellationToken);
 
             var id = await _gameLicenseRepository.PurchaseAsync(gameLicense, cancellationToken);
 
