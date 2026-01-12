@@ -26,14 +26,13 @@ namespace FiapCloudGames.Application.Commands.RegisterUser
             CancellationToken cancellationToken)
         {
             var email = new Email(request.Email);
+            if (!await _specification.IsSatisfiedByAsync(email, cancellationToken))
+            {
+                throw new DomainException("Email already in use.");
+            }
             var plainPassword = Password.FromPlainText(request.Password);
 
             var passwordHash = _passwordHasher.HashPassword(plainPassword.Value);
-
-            if(!await _specification.IsSatisfiedByAsync(email, cancellationToken))
-            {
-                throw new DomainException("Email already in use."); 
-            }
 
             var user = User.Create(
                 request.Name,

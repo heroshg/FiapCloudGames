@@ -1,5 +1,6 @@
 ﻿using FiapCloudGames.Application.Commands.RegisterGame;
 using FiapCloudGames.Application.Queries.GetAllGames;
+using FiapCloudGames.Application.Queries.GetAllGamesByUserId;
 using FiapCloudGames.Infrastructure.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -102,6 +103,37 @@ namespace FiapCloudGames.API.Controllers
             if (!result.IsSuccess)
             {
                 _logger.LogError($"Error getting games: {result.Message}");
+                return BadRequest(result.Message);
+            }
+
+            return Ok(result.Data);
+        }
+        /// <summary>
+        /// Retrieves all games owned by a specific user
+        /// </summary>
+        /// <remarks>
+        /// Returns the list of games associated with the provided user identifier.
+        /// The user must exist and have at least one associated game license.
+        /// </remarks>
+        /// <param name="userId">Unique identifier of the user</param>
+        /// <param name="cancellation">Request cancellation token</param>
+        /// <response code="200">Games retrieved successfully</response>
+        /// <response code="400">Invalid user ID or no games found</response>
+        /// <response code="401">Unauthorized</response>
+        [HttpGet("{userId:guid}")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> GetAllGamesByUserId(Guid userId, CancellationToken cancellation)
+        {
+            var result = await _mediator.Send(
+                new GetAllGamesByUserIdQuery(userId),
+                cancellation);
+
+            if (!result.IsSuccess)
+            {
+                _logger.LogError($"Error getting games by user ID: {result.Message}");
                 return BadRequest(result.Message);
             }
 

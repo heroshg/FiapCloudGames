@@ -32,6 +32,16 @@ namespace FiapCloudGames.Infrastructure.Persistence.Repositories
                 .ToListAsync(cancellationToken);
         }
 
+        public async Task<List<Game>> GetAllByUserIdAsync(Guid userId, CancellationToken cancellationToken)
+        {
+            return await (
+                    from gl in _context.GameLicenses.AsNoTracking()
+                    join g in _context.Games.AsNoTracking()
+                    on gl.GameId equals g.Id
+                    where gl.UserId == userId
+                    select g).Include(g => g.Promotions).ToListAsync(cancellationToken);
+        }
+
         public async Task<Game?> GetByIdAsync(Guid gameId, CancellationToken cancellationToken)
         {
             return await _context.Games

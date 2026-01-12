@@ -51,7 +51,6 @@ namespace FiapCloudGames.API.Controllers
             CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(model, cancellationToken);
-
             if (!result.IsSuccess)
             {
                 _logger.LogError(
