@@ -1,3 +1,4 @@
+using FiapCloudGames.Tests.Common;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Reqnroll;
@@ -117,7 +118,7 @@ namespace FiapCloudGames.Tests
             {
                 ["name"] = "Usuário Existente",
                 ["email"] = email,
-                ["password"] = "SenhaForte@123"
+                ["password"] = PasswordFakers.GenerateValidPassword()
             };
 
             // Act
