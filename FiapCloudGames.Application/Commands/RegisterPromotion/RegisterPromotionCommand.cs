@@ -1,15 +1,20 @@
 ﻿using FiapCloudGames.Application.Models;
 using FiapCloudGames.Domain.Games;
 using NetDevPack.SimpleMediator;
+using System.ComponentModel.DataAnnotations;
 
 namespace FiapCloudGames.Application.Commands.RegisterPromotion
 {
-    public class RegisterPromotionCommand : IRequest<ResultViewModel<Guid>>
+    public record RegisterPromotionCommand(
+        [Required(ErrorMessage = "Promotion name is required.")]
+        [MaxLength(100)]
+        string Name,
+        [Required(ErrorMessage = "Discount is required.")]
+        Discount Discount, 
+        DateTime StartsAt, 
+        DateTime EndsAt,
+        [Required]
+        List<Guid> GameIds) : IRequest<ResultViewModel<Guid>>
     {
-        public string Name { get; set; }
-        public Discount Discount { get; set; }
-        public DateTime StartsAt { get; set; }
-        public DateTime EndsAt { get; set; }
-        public List<Guid> GameIds { get; set; }
     }
 }
