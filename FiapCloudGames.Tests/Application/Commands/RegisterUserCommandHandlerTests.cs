@@ -4,11 +4,11 @@ using FiapCloudGames.Domain.Identity;
 using FiapCloudGames.Domain.Identity.Entities;
 using FiapCloudGames.Domain.Identity.Repositories;
 using FiapCloudGames.Domain.Identity.ValueObjects;
-using FiapCloudGames.UnitTests.Common;
+using FiapCloudGames.Tests.Common;
 using FluentAssertions;
 using Moq;
 
-namespace FiapCloudGames.UnitTests.Application.Commands;
+namespace FiapCloudGames.Tests.Application.Commands;
 
 public class RegisterUserCommandHandlerTests
 {
