@@ -1,4 +1,4 @@
-﻿namespace FiapCloudGames.UnitTests.Common
+﻿namespace FiapCloudGames.Tests.Common
 {
     using Bogus;
 

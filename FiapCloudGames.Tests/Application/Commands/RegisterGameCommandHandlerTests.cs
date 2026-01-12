@@ -1,11 +1,11 @@
 ﻿using FiapCloudGames.Application.Commands.RegisterGame;
 using FiapCloudGames.Domain.Common;
 using FiapCloudGames.Domain.Games;
-using FiapCloudGames.UnitTests.Common;
+using FiapCloudGames.Tests.Common;
 using Moq;
 using Xunit;
 
-namespace FiapCloudGames.UnitTests.Application.Commands;
+namespace FiapCloudGames.Tests.Application.Commands;
 
 public class RegisterGameCommandHandlerTests
 {

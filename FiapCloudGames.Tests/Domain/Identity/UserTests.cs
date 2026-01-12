@@ -4,7 +4,7 @@ using FiapCloudGames.Domain.Identity.ValueObjects;
 using System;
 using Xunit;
 
-namespace FiapCloudGames.UnitTests.Domain.Identity;
+namespace FiapCloudGames.Tests.Domain.Identity;
 
 public class UserTests
 {

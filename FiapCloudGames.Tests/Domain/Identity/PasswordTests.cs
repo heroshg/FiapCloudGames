@@ -1,9 +1,9 @@
 using FiapCloudGames.Domain.Common;
 using FiapCloudGames.Domain.Identity.Policies;
 using FiapCloudGames.Domain.Identity.ValueObjects;
-using FiapCloudGames.UnitTests.Common;
+using FiapCloudGames.Tests.Common;
 
-namespace FiapCloudGames.UnitTests.Domain.Identity;
+namespace FiapCloudGames.Tests.Domain.Identity;
 
 public class PasswordTests
 {

@@ -3,7 +3,7 @@ using FiapCloudGames.Domain.Identity.Repositories;
 using FiapCloudGames.Domain.Identity.ValueObjects;
 using Moq;
 
-namespace FiapCloudGames.UnitTests.Domain.Identity;
+namespace FiapCloudGames.Tests.Domain.Identity;
 
 public class EmailTests
 {
