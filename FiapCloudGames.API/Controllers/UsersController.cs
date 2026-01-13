@@ -6,10 +6,9 @@ using FiapCloudGames.Application.Commands.UpdateUser;
 using FiapCloudGames.Application.Queries.GetUserByEmail;
 using FiapCloudGames.Application.Queries.GetUserById;
 using FiapCloudGames.Application.Queries.GetUserByName;
-using FiapCloudGames.Application.Queries.ListUsers;
+using FiapCloudGames.Application.Queries.GetUsers;
 using FiapCloudGames.Infrastructure.Logging;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NetDevPack.SimpleMediator;
 
@@ -107,8 +106,8 @@ namespace FiapCloudGames.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<IActionResult> GetUsers(
-            [FromQuery] ListUsersQuery model,
+        public async Task<IActionResult> Get(
+            [FromQuery] GetUsersQuery model,
             CancellationToken ct)
         {
             var result = await _mediator.Send(model, ct);
@@ -133,7 +132,7 @@ namespace FiapCloudGames.API.Controllers
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetUserByEmail(
+        public async Task<IActionResult> GetByEmail(
             [FromQuery] string email,
             CancellationToken ct)
         {
@@ -159,7 +158,7 @@ namespace FiapCloudGames.API.Controllers
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetUserByName(
+        public async Task<IActionResult> GetByName(
             [FromQuery] string name,
             CancellationToken ct)
         {
@@ -185,7 +184,7 @@ namespace FiapCloudGames.API.Controllers
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetUserById(
+        public async Task<IActionResult> GetById(
             Guid id,
             CancellationToken ct)
         {
@@ -208,12 +207,12 @@ namespace FiapCloudGames.API.Controllers
         ///
         /// Admin access required.
         /// </remarks>
-        [HttpPut("{id:guid}")]
+        [HttpPatch("{id:guid}")]
         [Authorize(Roles = "Admin")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateUser(
+        public async Task<IActionResult> Update(
             Guid id,
             [FromBody] UpdateUserRequest body,
             CancellationToken ct)
@@ -237,7 +236,7 @@ namespace FiapCloudGames.API.Controllers
         /// <remarks>
         /// Admin access required.
         /// </remarks>
-        [HttpPut("{id:guid}/role")]
+        [HttpPatch("{id:guid}/role")]
         [Authorize(Roles = "Admin")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -272,7 +271,7 @@ namespace FiapCloudGames.API.Controllers
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> DeleteUser(
+        public async Task<IActionResult> Delete(
             Guid id,
             CancellationToken ct)
         {

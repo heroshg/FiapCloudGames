@@ -2,19 +2,19 @@
 using FiapCloudGames.Domain.Identity.Repositories;
 using NetDevPack.SimpleMediator;
 
-namespace FiapCloudGames.Application.Queries.ListUsers
+namespace FiapCloudGames.Application.Queries.GetUsers
 {
-    public class ListUsersHandler : IRequestHandler<ListUsersQuery, ResultViewModel<PagedResultViewModel<UserAdminViewModel>>>
+    public class GetUsersHandler : IRequestHandler<GetUsersQuery, ResultViewModel<PagedResultViewModel<UserAdminViewModel>>>
     {
         private readonly IUserRepository _repository;
 
-        public ListUsersHandler(IUserRepository repository)
+        public GetUsersHandler(IUserRepository repository)
         {
             _repository = repository;
         }
 
         public async Task<ResultViewModel<PagedResultViewModel<UserAdminViewModel>>> Handle(
-            ListUsersQuery request,
+            GetUsersQuery request,
             CancellationToken cancellationToken)
         {
             var page = request.Page <= 0 ? 1 : request.Page;
