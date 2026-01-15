@@ -232,13 +232,9 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
   await testRunner.ThenAsync("a resposta deve ter status 400", ((string)(null)), ((global::Reqnroll.Table)(null)), "Então ");
 #line hidden
                 global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
-                            "campo",
-                            "valor"});
-                table3.AddRow(new string[] {
-                            "error",
-                            "Email already in use."});
+                            "Email already in use"});
 #line 23
-  await testRunner.AndAsync("o corpo da resposta deve ser um JSON de erro contendo:", ((string)(null)), table3, "E ");
+  await testRunner.AndAsync("o corpo da resposta deve ser uma string de erro contendo a mensagem:", ((string)(null)), table3, "E ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

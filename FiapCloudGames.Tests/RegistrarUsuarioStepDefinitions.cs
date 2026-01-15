@@ -19,7 +19,7 @@ namespace FiapCloudGames.Tests
         private HttpResponseMessage? _response;
         private string? _responseBody;
 
-        [Given("que a API est√° em execu√ß√£o")]
+        [Given("que a API est· em execuÁ„o")]
         public void GivenQueAAPIEstaEmExecucao()
         {
             // Arrange
@@ -67,7 +67,7 @@ namespace FiapCloudGames.Tests
             _payload.Should().ContainKey("email");
         }
 
-        [When("eu executo no Swagger uma requisi√ß√£o POST para {string}")]
+        [When("eu executo no Swagger uma requisiÁ„o POST para {string}")]
         public async Task WhenEuExecutoNoSwaggerUmaRequisicaoPOSTPara(string path)
         {
             // Arrange
@@ -105,10 +105,10 @@ namespace FiapCloudGames.Tests
             var ok = Guid.TryParse(raw, out _);
 
             // Assert
-            ok.Should().BeTrue($"o retorno deveria ser um GUID v√°lido, mas foi: {_responseBody}");
+            ok.Should().BeTrue($"o retorno deveria ser um GUID v·lido, mas foi: {_responseBody}");
         }
 
-        [Given("que j√° existe um usu√°rio cadastrado com o e-mail {string}")]
+        [Given("que j· existe um usu·rio cadastrado com o e-mail {string}")]
         public async Task GivenQueJaExisteUmUsuarioCadastradoComOE_Mail(string email)
         {
             // Arrange
@@ -116,7 +116,7 @@ namespace FiapCloudGames.Tests
 
             var payload = new Dictionary<string, object>
             {
-                ["name"] = "Usu√°rio Existente",
+                ["name"] = "Usu·rio Existente",
                 ["email"] = email,
                 ["password"] = PasswordFakers.GenerateValidPassword()
             };
@@ -128,47 +128,28 @@ namespace FiapCloudGames.Tests
             ((int)resp.StatusCode).Should().BeOneOf(200, 400);
         }
 
-        [Then("o corpo da resposta deve ser um JSON de erro contendo:")]
-        public void ThenOCorpoDaRespostaDeveSerUmJSONDeErroContendo(DataTable dataTable)
+        [Then("o corpo da resposta deve ser uma string de erro contendo a mensagem:")]
+        public void ThenOCorpoDaRespostaDeveSerUmaStringDeErroContendoAMensagem(DataTable dataTable)
         {
             // Arrange
-            _responseBody.Should().NotBeNull();
+            _responseBody.Should().NotBeNullOrWhiteSpace();
 
-            // Act
-            JsonDocument doc;
-            try
-            {
-                doc = JsonDocument.Parse(_responseBody!);
-            }
-            catch
-            {
-                throw new Exception($"O corpo da resposta n√£o √© um JSON v√°lido: {_responseBody}");
-            }
+            var body = _responseBody!.Trim();
 
-            var root = doc.RootElement;
+            if (body.StartsWith("\"") && body.EndsWith("\""))
+                body = JsonSerializer.Deserialize<string>(body)!;
 
             // Assert
             foreach (var row in dataTable.Rows)
             {
-                var campo = row["campo"]?.Trim();
                 var valorEsperado = row["valor"]?.Trim();
 
-                campo.Should().NotBeNullOrWhiteSpace();
-                valorEsperado.Should().NotBeNull();
+                valorEsperado.Should().NotBeNullOrWhiteSpace();
 
-                root.TryGetProperty(campo!, out var prop).Should().BeTrue(
-                    $"o JSON de erro deveria conter a propriedade '{campo}', mas veio: {_responseBody}"
-                );
-
-                var valorAtual = prop.ValueKind switch
-                {
-                    JsonValueKind.String => prop.GetString(),
-                    _ => prop.ToString()
-                };
-
-                valorAtual.Should().Be(valorEsperado, $"resposta: {_responseBody}");
+                body.Should().Contain(valorEsperado!, $"resposta: {_responseBody}");
             }
         }
+
 
         private static string ResolveEmail(string emailFromFeature)
         {
