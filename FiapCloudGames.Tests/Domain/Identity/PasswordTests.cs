@@ -1,5 +1,4 @@
 using FiapCloudGames.Domain.Common;
-using FiapCloudGames.Domain.Identity.Policies;
 using FiapCloudGames.Domain.Identity.ValueObjects;
 using FiapCloudGames.Tests.Common;
 
@@ -19,7 +18,7 @@ public class PasswordTests
         // (nothing else)
 
         // Act
-        var act = () => PasswordPolicy.Validate(password!);
+        var act = () => Password.FromPlainText(password!);
 
         // Assert
         Assert.Throws<DomainException>(act);
@@ -36,7 +35,7 @@ public class PasswordTests
         // password already arranged by MemberData
 
         // Act
-        var ex = Assert.Throws<DomainException>(() => PasswordPolicy.Validate(password));
+        var ex = Assert.Throws<DomainException>(() => Password.FromPlainText(password));
 
         // Assert
         Assert.Contains(expectedMessagePart, ex.Message);
@@ -49,7 +48,7 @@ public class PasswordTests
         var valid = PasswordFakers.GenerateValidPassword();
 
         // Act
-        var act = () => PasswordPolicy.Validate(valid);
+        var act = () => Password.FromPlainText(valid);
 
         // Assert
         var ex = Record.Exception(act);

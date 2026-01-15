@@ -28,7 +28,7 @@ namespace FiapCloudGames.Application.Commands.RegisterUser
             var email = new Email(request.Email);
             if (!await _specification.IsSatisfiedByAsync(email, cancellationToken))
             {
-                throw new DomainException("Email already in use.");
+                return ResultViewModel<Guid>.Error("Email already in use.");
             }
             var plainPassword = Password.FromPlainText(request.Password);
 

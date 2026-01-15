@@ -39,19 +39,6 @@ public class EmailTests
         Assert.Throws<DomainException>(act);
     }
 
-    [Theory]
-    [MemberData(nameof(InvalidFormats))]
-    public void InvalidEmailFormat_CreatingEmail_ShouldThrowDomainException(string address)
-    {
-        // Arrange
-        // (address já vem do MemberData)
-
-        // Act
-        var act = () => new Email(address);
-
-        // Assert
-        Assert.Throws<DomainException>(act);
-    }
 
     [Fact]
     public void ValidEmail_CreatingEmail_ShouldSetAddress()

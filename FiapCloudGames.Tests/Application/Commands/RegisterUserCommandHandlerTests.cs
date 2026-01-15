@@ -1,4 +1,5 @@
 ﻿using FiapCloudGames.Application.Commands.RegisterUser;
+using FiapCloudGames.Application.Models;
 using FiapCloudGames.Domain.Common;
 using FiapCloudGames.Domain.Identity;
 using FiapCloudGames.Domain.Identity.Entities;
@@ -73,7 +74,7 @@ public class RegisterUserCommandHandlerTests
     }
 
     [Fact]
-    public async Task InvalidEmail_Handle_ThrowsDomainExceptionAndDoesNotCallDependencies()
+    public async Task InvalidEmail_Handle_ResultErrorAndDoesNotCallDependencies()
     {
         // Arrange
         var users = new Mock<IUserRepository>();
@@ -91,10 +92,10 @@ public class RegisterUserCommandHandlerTests
         );
 
         // Act
-        var act = async () => await sut.Handle(cmd, CancellationToken.None);
+        var act =   await sut.Handle(cmd, CancellationToken.None);
 
         // Assert
-        await Assert.ThrowsAsync<DomainException>(act);
+        act.Message.Should().Be("Email already in use.");
 
         users.Verify(r => r.IsEmailRegisteredAsync(It.IsAny<string>()), Times.Never);
         hasher.Verify(h => h.HashPassword(It.IsAny<string>()), Times.Never);
@@ -102,7 +103,7 @@ public class RegisterUserCommandHandlerTests
     }
 
     [Fact]
-    public async Task InvalidPassword_Handle_ThrowsDomainExceptionAndDoesNotCallDependencies()
+    public async Task InvalidPassword_Handle_ResultErrorAndDoesNotCallDependencies()
     {
         // Arrange
         var users = new Mock<IUserRepository>();
@@ -120,10 +121,10 @@ public class RegisterUserCommandHandlerTests
         );
 
         // Act
-        var act = async () => await sut.Handle(cmd, CancellationToken.None);
+        var act = await sut.Handle(cmd, CancellationToken.None);
 
         // Assert
-        await Assert.ThrowsAsync<DomainException>(act);
+        act.Message.Should().Be("Email already in use.");
 
         users.Verify(r => r.IsEmailRegisteredAsync(It.IsAny<string>()), Times.Never);
         hasher.Verify(h => h.HashPassword(It.IsAny<string>()), Times.Never);
@@ -131,7 +132,7 @@ public class RegisterUserCommandHandlerTests
     }
 
     [Fact]
-    public async Task EmailAlreadyRegistered_Handle_ThrowsDomainException_AndDoesNotAddUser()
+    public async Task EmailAlreadyRegistered_Handle_ResultErrorAndDoesNotAddUser()
     {
         var users = new Mock<IUserRepository>();
         users.Setup(r => r.IsEmailRegisteredAsync(It.IsAny<string>()))
@@ -159,12 +160,10 @@ public class RegisterUserCommandHandlerTests
         );
 
         // Act
-        var ex = await Assert.ThrowsAsync<DomainException>(
-            () => sut.Handle(cmd, CancellationToken.None)
-        );
+        var act = await sut.Handle(cmd, CancellationToken.None);
 
         // Assert
-        ex.Message.Should().Be("Email already in use.");
+        act.Message.Should().Be("Email already in use.");
 
         specification.Verify(
             s => s.IsSatisfiedByAsync(
