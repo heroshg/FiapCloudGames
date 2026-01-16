@@ -46,12 +46,13 @@ namespace FiapCloudGames.Infrastructure.Persistence.Repositories
         {
             return await _context.Games
                 .AsNoTracking()
+                .Include(g => g.Promotions)
                 .SingleOrDefaultAsync(g => g.Id == gameId, cancellationToken);
         }
 
-        public Task<List<Game>> GetByIdsAsync(List<Guid> gameIds, CancellationToken cancellationToken)
+        public async Task<List<Game>> GetByIdsAsync(List<Guid> gameIds, CancellationToken cancellationToken)
         {
-            return _context.Games
+            return await _context.Games
                 .AsNoTracking()
                 .Where(g => gameIds.Contains(g.Id))
                 .ToListAsync(cancellationToken);

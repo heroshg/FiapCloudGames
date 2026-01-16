@@ -9,7 +9,7 @@ namespace FiapCloudGames.Application.Commands.RegisterGame
         [MaxLength(80)]
         string Name,
         [Required(ErrorMessage = "Description is required")]
-        [MinLength(300)]
+        [MaxLength(300)]
         string Description,
         [Required(ErrorMessage = "Price is required")]
         [Range(0.01, double.MaxValue, ErrorMessage = "Price must be greater than zero")]
