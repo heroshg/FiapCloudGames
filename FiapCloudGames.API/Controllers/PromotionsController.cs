@@ -1,13 +1,9 @@
 ﻿using FiapCloudGames.Application.Commands.PurchasePromotion;
 using FiapCloudGames.Application.Commands.RegisterPromotion;
-using FiapCloudGames.Application.Models;
-using FiapCloudGames.Domain.Games;
 using FiapCloudGames.Infrastructure.Logging;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NetDevPack.SimpleMediator;
-using System.ComponentModel.DataAnnotations;
 
 namespace FiapCloudGames.API.Controllers
 {

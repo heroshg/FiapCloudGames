@@ -1,5 +1,4 @@
 ﻿using FiapCloudGames.Application.Models;
-using FiapCloudGames.Domain.Identity.ValueObjects;
 using FiapCloudGames.Domain.UserAggregate;
 using FiapCloudGames.Infrastructure.Auth;
 using NetDevPack.SimpleMediator;

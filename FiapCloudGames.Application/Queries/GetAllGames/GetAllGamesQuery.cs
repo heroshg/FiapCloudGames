@@ -1,5 +1,4 @@
 ﻿using FiapCloudGames.Application.Models;
-using FiapCloudGames.Domain.Games;
 using NetDevPack.SimpleMediator;
 
 namespace FiapCloudGames.Application.Queries.GetAllGames
