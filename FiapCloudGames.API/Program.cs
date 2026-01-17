@@ -29,11 +29,14 @@ Log.Logger = loggerConfig.CreateLogger();
 
 builder.Host.UseSerilog();
 
+
 builder.Services.AddApplication();
-builder.Services.AddInfrastructureModule(builder.Configuration);
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddInfrastructureModule(builder.Configuration);
 
 builder.Services.AddSwaggerGen(c =>
 {
