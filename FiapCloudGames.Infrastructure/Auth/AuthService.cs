@@ -15,7 +15,7 @@ namespace FiapCloudGames.Infrastructure.Auth
             _configuration = configuration;
         }
 
-        public string GenerateToken(string email, string role)
+        public string GenerateToken(Guid userId, string email, string role)
         {
             var issuer = _configuration["Jwt:Issuer"];
             var audience = _configuration["Jwt:Audience"];
@@ -27,6 +27,7 @@ namespace FiapCloudGames.Infrastructure.Auth
 
             var claims = new List<Claim>
             {
+                new ("userId", userId.ToString()),
                 new ("username", email),
                 new (ClaimTypes.Role, role),
             };
