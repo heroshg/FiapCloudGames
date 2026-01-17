@@ -1,5 +1,4 @@
 ﻿using FiapCloudGames.Domain.Common;
-using FiapCloudGames.Domain.Identity;
 
 namespace FiapCloudGames.Domain.GameLicenseAggregate
 {

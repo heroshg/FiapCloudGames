@@ -1,11 +1,9 @@
 ﻿using FiapCloudGames.Application.Models;
 using FiapCloudGames.Domain.GameLicenseAggregate;
-using FiapCloudGames.Domain.Identity.Entities;
 using FiapCloudGames.Domain.PromotionAggregate;
 using FiapCloudGames.Domain.UserAggregate;
 using Microsoft.AspNetCore.Http;
 using NetDevPack.SimpleMediator;
-using System.ComponentModel;
 
 namespace FiapCloudGames.Application.Commands.PurchasePromotion
 {

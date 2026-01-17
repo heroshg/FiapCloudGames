@@ -1,6 +1,4 @@
-﻿using FiapCloudGames.Domain.Games;
-
-namespace FiapCloudGames.Domain.UserAggregate
+﻿namespace FiapCloudGames.Domain.UserAggregate
 {
     public interface IUserRepository
     {
