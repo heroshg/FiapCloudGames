@@ -7,9 +7,7 @@ namespace FiapCloudGames.Application.Commands.PurchasePromotion
 {
     public record PurchasePromotionCommand(
         [Required(ErrorMessage = "Promotion id is required")]
-        Guid PromotionId,
-        [Required(ErrorMessage = "User id is required")]
-        Guid UserId) : IRequest<ResultViewModel<List<GameLicense>>>
+        Guid PromotionId) : IRequest<ResultViewModel<List<GameLicense>>>
     {
 
     }
