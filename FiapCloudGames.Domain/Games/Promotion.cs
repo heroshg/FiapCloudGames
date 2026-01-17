@@ -56,7 +56,7 @@ namespace FiapCloudGames.Domain.Games
                 throw new ArgumentException("At least one game must be associated with the promotion.", nameof(games));
             }
 
-            if(games.Any(g => g.IsActive))
+            if(games.Any(g => !g.IsActive))
             {
                 throw new ArgumentException("All games associated with the promotion must be active.", nameof(games));
             }
@@ -101,7 +101,7 @@ namespace FiapCloudGames.Domain.Games
         public DateTime? StartsAt { get; private set; }
         public DateTime? EndsAt { get; private set; }
 
-        public ICollection<Game> Games => [];
+        public ICollection<Game> Games { get; private set; } = new List<Game>();
 
         public decimal GetDiscountedPrice()
         {

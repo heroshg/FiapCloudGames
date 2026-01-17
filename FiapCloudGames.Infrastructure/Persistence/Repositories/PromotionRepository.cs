@@ -14,7 +14,10 @@ namespace FiapCloudGames.Infrastructure.Persistence.Repositories
 
         public async Task<Guid> AddAsync(Promotion promotion, CancellationToken cancellationToken)
         {
-            await _context.Promotions.AddAsync(promotion, cancellationToken);
+            foreach (var game in promotion.Games)
+                _context.Attach(game);
+
+            _context.Promotions.Add(promotion);
             await _context.SaveChangesAsync(cancellationToken);
 
             return promotion.Id;
