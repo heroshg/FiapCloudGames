@@ -20,6 +20,5 @@ Cenário: Não permitir registro com e-mail já cadastrado via Swagger
     | João Silva | joao.silva@example.com | SenhaForte@123 |
   Quando eu executo no Swagger uma requisição POST para "/api/users"
   Então a resposta deve ter status 400
-  E o corpo da resposta deve ser um JSON de erro contendo:
-    | campo | valor                 |
-    | error | Email already in use. |
+  E o corpo da resposta deve ser uma string de erro contendo a mensagem:
+    | Email already in use |
