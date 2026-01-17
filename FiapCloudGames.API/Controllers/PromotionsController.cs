@@ -1,10 +1,13 @@
 ﻿using FiapCloudGames.Application.Commands.PurchasePromotion;
 using FiapCloudGames.Application.Commands.RegisterPromotion;
+using FiapCloudGames.Application.Models;
+using FiapCloudGames.Domain.Games;
 using FiapCloudGames.Infrastructure.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NetDevPack.SimpleMediator;
+using System.ComponentModel.DataAnnotations;
 
 namespace FiapCloudGames.API.Controllers
 {
@@ -89,9 +92,18 @@ namespace FiapCloudGames.API.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> PurchasePromotion(
-            [FromBody] PurchasePromotionCommand model,
+            [FromBody] PurchasePromotionRequest body,
             CancellationToken cancellationToken)
         {
+            var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == "userId");
+
+            if (userIdClaim is null || !Guid.TryParse(userIdClaim.Value, out var userId))
+            {
+                _logger.LogError("PurchasePromotion failed: User ID claim is missing or invalid.");
+                return Unauthorized("User ID claim is missing or invalid.");
+            }
+
+            var model = new PurchasePromotionCommand(body.PromotionId, userId);
             var result = await _mediator.Send(model, cancellationToken);
 
             if (!result.IsSuccess)
@@ -101,6 +113,13 @@ namespace FiapCloudGames.API.Controllers
             }
 
             return Ok(result.Data);
+        }
+
+        public record PurchasePromotionRequest(
+        [Required(ErrorMessage = "Promotion id is required")]
+        Guid PromotionId) : IRequest<ResultViewModel<List<GameLicense>>>
+        {
+
         }
     }
 }

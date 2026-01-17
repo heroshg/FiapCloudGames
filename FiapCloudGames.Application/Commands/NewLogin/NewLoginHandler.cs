@@ -41,7 +41,7 @@ namespace FiapCloudGames.Application.Commands.NewLogin
                 return ResultViewModel<LoginViewModel>.Error("User is inactive");
             }
 
-            var token = _service.GenerateToken(request.Email, user.Role.Value);
+            var token = _service.GenerateToken(user.Id, request.Email, user.Role.Value);
 
             var loginViewModel = new LoginViewModel(token);
 
