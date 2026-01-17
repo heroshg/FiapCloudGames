@@ -1,7 +1,4 @@
-﻿using FiapCloudGames.Domain.Identity.Repositories;
-using FiapCloudGames.Domain.Identity.ValueObjects;
-
-namespace FiapCloudGames.Domain.Identity
+﻿namespace FiapCloudGames.Domain.UserAggregate
 {
     public class UserSpecification : IUserSpecification
     {

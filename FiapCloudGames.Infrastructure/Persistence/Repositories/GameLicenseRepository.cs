@@ -1,4 +1,4 @@
-﻿using FiapCloudGames.Domain.Games;
+﻿using FiapCloudGames.Domain.GameLicenseAggregate;
 using Microsoft.EntityFrameworkCore;
 
 namespace FiapCloudGames.Infrastructure.Persistence.Repositories

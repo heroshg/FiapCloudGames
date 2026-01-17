@@ -1,6 +1,6 @@
 ﻿using FiapCloudGames.Application.Commands.RegisterGame;
 using FiapCloudGames.Domain.Common;
-using FiapCloudGames.Domain.Games;
+using FiapCloudGames.Domain.GameAggregate;
 using FiapCloudGames.Tests.Common;
 using Moq;
 using Xunit;

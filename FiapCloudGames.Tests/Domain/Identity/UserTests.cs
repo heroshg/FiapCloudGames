@@ -1,6 +1,5 @@
 using FiapCloudGames.Domain.Common;
-using FiapCloudGames.Domain.Identity.Entities;
-using FiapCloudGames.Domain.Identity.ValueObjects;
+using FiapCloudGames.Domain.UserAggregate;
 using System;
 using Xunit;
 

@@ -1,10 +1,7 @@
 ﻿using FiapCloudGames.Application.Commands.RegisterUser;
 using FiapCloudGames.Application.Models;
 using FiapCloudGames.Domain.Common;
-using FiapCloudGames.Domain.Identity;
-using FiapCloudGames.Domain.Identity.Entities;
-using FiapCloudGames.Domain.Identity.Repositories;
-using FiapCloudGames.Domain.Identity.ValueObjects;
+using FiapCloudGames.Domain.UserAggregate;
 using FiapCloudGames.Tests.Common;
 using FluentAssertions;
 using Moq;

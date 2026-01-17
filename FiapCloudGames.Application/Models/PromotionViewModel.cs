@@ -1,4 +1,4 @@
-﻿using FiapCloudGames.Domain.Games;
+﻿using FiapCloudGames.Domain.PromotionAggregate;
 
 namespace FiapCloudGames.Application.Models
 {

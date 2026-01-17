@@ -1,7 +1,7 @@
 ﻿using FiapCloudGames.Application.Models;
 using FiapCloudGames.Domain.Common;
-using FiapCloudGames.Domain.Identity.Repositories;
 using FiapCloudGames.Domain.Identity.ValueObjects;
+using FiapCloudGames.Domain.UserAggregate;
 using NetDevPack.SimpleMediator;
 
 namespace FiapCloudGames.Application.Commands.ChangeUserRole

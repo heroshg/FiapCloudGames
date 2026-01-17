@@ -1,4 +1,4 @@
-﻿using FiapCloudGames.Domain.Games;
+﻿using FiapCloudGames.Domain.GameLicenseAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

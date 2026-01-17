@@ -1,6 +1,7 @@
 ﻿using FiapCloudGames.Application.Models;
-using FiapCloudGames.Domain.Games;
-using FiapCloudGames.Domain.Identity.Repositories;
+using FiapCloudGames.Domain.GameAggregate;
+using FiapCloudGames.Domain.GameLicenseAggregate;
+using FiapCloudGames.Domain.UserAggregate;
 using Microsoft.AspNetCore.Http;
 using NetDevPack.SimpleMediator;
 

@@ -1,4 +1,4 @@
-﻿namespace FiapCloudGames.Domain.Games
+﻿namespace FiapCloudGames.Domain.PromotionAggregate
 {
     public interface IPromotionRepository
     {

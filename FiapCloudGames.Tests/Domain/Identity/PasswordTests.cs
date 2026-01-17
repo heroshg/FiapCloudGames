@@ -1,5 +1,5 @@
 using FiapCloudGames.Domain.Common;
-using FiapCloudGames.Domain.Identity.ValueObjects;
+using FiapCloudGames.Domain.UserAggregate;
 using FiapCloudGames.Tests.Common;
 
 namespace FiapCloudGames.Tests.Domain.Identity;

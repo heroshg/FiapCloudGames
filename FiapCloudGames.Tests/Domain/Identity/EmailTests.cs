@@ -1,6 +1,6 @@
 using FiapCloudGames.Domain.Common;
-using FiapCloudGames.Domain.Identity.Repositories;
 using FiapCloudGames.Domain.Identity.ValueObjects;
+using FiapCloudGames.Domain.UserAggregate;
 using Moq;
 
 namespace FiapCloudGames.Tests.Domain.Identity;

@@ -1,5 +1,5 @@
 ﻿using FiapCloudGames.Application.Models;
-using FiapCloudGames.Domain.Identity.Repositories;
+using FiapCloudGames.Domain.UserAggregate;
 using NetDevPack.SimpleMediator;
 using System;
 using System.Collections.Generic;

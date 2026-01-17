@@ -1,6 +1,7 @@
 ﻿using FiapCloudGames.Domain.Common;
+using FiapCloudGames.Domain.PromotionAggregate;
 
-namespace FiapCloudGames.Domain.Games
+namespace FiapCloudGames.Domain.GameAggregate
 {
     public class Game : Entity
     {

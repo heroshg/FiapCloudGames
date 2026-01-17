@@ -1,5 +1,6 @@
 ﻿using FiapCloudGames.Application.Models;
-using FiapCloudGames.Domain.Games;
+using FiapCloudGames.Domain.GameAggregate;
+using FiapCloudGames.Domain.PromotionAggregate;
 using NetDevPack.SimpleMediator;
 
 namespace FiapCloudGames.Application.Commands.RegisterPromotion

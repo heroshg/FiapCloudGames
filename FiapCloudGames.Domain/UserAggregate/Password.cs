@@ -1,6 +1,6 @@
 ﻿using FiapCloudGames.Domain.Common;
 
-namespace FiapCloudGames.Domain.Identity.ValueObjects
+namespace FiapCloudGames.Domain.UserAggregate
 {
     public class Password
     {

@@ -1,5 +1,5 @@
 ﻿using FiapCloudGames.Application.Models;
-using FiapCloudGames.Domain.Games;
+using FiapCloudGames.Domain.GameLicenseAggregate;
 using NetDevPack.SimpleMediator;
 using System.ComponentModel.DataAnnotations;
 

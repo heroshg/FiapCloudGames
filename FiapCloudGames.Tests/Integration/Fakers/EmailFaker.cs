@@ -1,5 +1,5 @@
 ﻿using Bogus;
-using FiapCloudGames.Domain.Identity.ValueObjects;
+using FiapCloudGames.Domain.UserAggregate;
 
 namespace FiapCloudGames.Tests.Integration.Fakers
 {

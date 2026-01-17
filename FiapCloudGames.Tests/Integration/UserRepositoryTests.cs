@@ -1,7 +1,4 @@
-﻿using FiapCloudGames.Domain.Identity;
-using FiapCloudGames.Domain.Identity.Entities;
-using FiapCloudGames.Domain.Identity.Repositories;
-using FiapCloudGames.Domain.Identity.ValueObjects;
+﻿using FiapCloudGames.Domain.UserAggregate;
 using FiapCloudGames.Infrastructure.Identity;
 using FiapCloudGames.Infrastructure.Persistence;
 using FiapCloudGames.Infrastructure.Persistence.Repositories;

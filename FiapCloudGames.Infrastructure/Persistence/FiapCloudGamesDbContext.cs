@@ -1,5 +1,7 @@
-﻿using FiapCloudGames.Domain.Games;
-using FiapCloudGames.Domain.Identity.Entities;
+﻿using FiapCloudGames.Domain.GameAggregate;
+using FiapCloudGames.Domain.GameLicenseAggregate;
+using FiapCloudGames.Domain.PromotionAggregate;
+using FiapCloudGames.Domain.UserAggregate;
 using FiapCloudGames.Infrastructure.Persistence.Configurations;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,9 +1,8 @@
-﻿
-using FiapCloudGames.Domain.Common;
-using FiapCloudGames.Domain.Identity.Entities;
-using FiapCloudGames.Domain.Identity.Repositories;
+﻿using FiapCloudGames.Domain.Common;
+using FiapCloudGames.Domain.GameLicenseAggregate;
+using FiapCloudGames.Domain.UserAggregate;
 
-namespace FiapCloudGames.Domain.Games
+namespace FiapCloudGames.Domain.GameAggregate
 {
     public class GamePurchaseService : IGamePurchaseService
     {

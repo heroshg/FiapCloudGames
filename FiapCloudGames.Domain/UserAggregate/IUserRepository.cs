@@ -1,8 +1,6 @@
 ﻿using FiapCloudGames.Domain.Games;
-using FiapCloudGames.Domain.Identity.Entities;
-using FiapCloudGames.Domain.Identity.ValueObjects;
 
-namespace FiapCloudGames.Domain.Identity.Repositories
+namespace FiapCloudGames.Domain.UserAggregate
 {
     public interface IUserRepository
     {

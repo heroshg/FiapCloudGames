@@ -1,6 +1,7 @@
-﻿using FiapCloudGames.Domain.Games;
-using FiapCloudGames.Domain.Identity;
-using FiapCloudGames.Domain.Identity.Repositories;
+﻿using FiapCloudGames.Domain.GameAggregate;
+using FiapCloudGames.Domain.GameLicenseAggregate;
+using FiapCloudGames.Domain.PromotionAggregate;
+using FiapCloudGames.Domain.UserAggregate;
 using FiapCloudGames.Infrastructure.Auth;
 using FiapCloudGames.Infrastructure.Identity;
 using FiapCloudGames.Infrastructure.Logging;

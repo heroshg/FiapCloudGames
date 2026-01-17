@@ -1,4 +1,4 @@
-﻿using FiapCloudGames.Domain.Games;
+﻿using FiapCloudGames.Domain.GameAggregate;
 
 namespace FiapCloudGames.Application.Models
 {

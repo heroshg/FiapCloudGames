@@ -1,7 +1,6 @@
 ﻿using FiapCloudGames.Domain.Common;
-using FiapCloudGames.Domain.Identity.ValueObjects;
 
-namespace FiapCloudGames.Domain.Identity.Entities
+namespace FiapCloudGames.Domain.UserAggregate
 {
     public class User : AggregateRoot
     {

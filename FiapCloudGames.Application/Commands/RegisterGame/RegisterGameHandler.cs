@@ -1,5 +1,5 @@
 ﻿using FiapCloudGames.Application.Models;
-using FiapCloudGames.Domain.Games;
+using FiapCloudGames.Domain.GameAggregate;
 using NetDevPack.SimpleMediator;
 
 namespace FiapCloudGames.Application.Commands.RegisterGame

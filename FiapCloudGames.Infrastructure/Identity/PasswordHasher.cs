@@ -1,4 +1,4 @@
-﻿using FiapCloudGames.Domain.Identity;
+﻿using FiapCloudGames.Domain.UserAggregate;
 using Konscious.Security.Cryptography;
 using System.Security.Cryptography;
 using System.Text;

@@ -1,4 +1,4 @@
-﻿namespace FiapCloudGames.Domain.Identity
+﻿namespace FiapCloudGames.Domain.UserAggregate
 {
     public interface IPasswordHasher
     {
