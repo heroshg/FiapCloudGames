@@ -12,7 +12,7 @@ namespace FiapCloudGames.Application.Commands.RegisterGame
         [MaxLength(300)]
         string Description,
         [Required(ErrorMessage = "Price is required")]
-        [Range(0.01, double.MaxValue, ErrorMessage = "Price must be greater than zero")]
+        [Range(0.00, double.MaxValue, ErrorMessage = "Price must be greater than zero")]
         decimal Price
         ) : IRequest<ResultViewModel<Guid>>
     {

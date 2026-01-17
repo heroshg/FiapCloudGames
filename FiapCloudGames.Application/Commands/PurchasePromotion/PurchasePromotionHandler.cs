@@ -55,6 +55,7 @@ namespace FiapCloudGames.Application.Commands.PurchasePromotion
             var purchasedGamesIds = await _userRepository.GetGamesAsync(userId, cancellationToken);
 
             var gameLicenses = promotion.Purchase(user, purchasedGamesIds);
+            await _userRepository.UpdateAsync(user, cancellationToken);
             await _gameLicenseRepository.PurchaseGamesAsync(gameLicenses, cancellationToken);
 
             return ResultViewModel<List<GameLicense>>.Success(gameLicenses);
