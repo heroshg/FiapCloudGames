@@ -24,7 +24,6 @@ namespace FiapCloudGames.Infrastructure.Persistence.Repositories
             return await _context.Games
                 .AsNoTracking()
                 .Where(g => g.IsActive && (name == "" || g.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase)))
-                .Where(g => !g.Promotions.Any(p => !p.IsActive))
                 .Include(g => g.Promotions)
                 .OrderBy(g => g.CreatedAt)
                 .Skip(page * pageSize)
